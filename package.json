@@ -37,5 +37,5 @@
     "start": "webpack serve --progress --node-env development -c config/webpack.dev.js",
     "lint:stylelint": "stylelint \"src/app/**/*.scss\" --fix",
     "lint": "eslint \"src/app/**/*.ts\" --fix"
+    }
   }
-}
