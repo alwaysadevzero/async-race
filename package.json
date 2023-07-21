@@ -1,12 +1,12 @@
 {
   "devDependencies": {
     "@babel/core": "latest",
-    "babel-loader": "latest",
     "@babel/preset-env": "latest",
     "@types/css-modules": "latest",
     "@typescript-eslint/eslint-plugin": "latest",
     "@typescript-eslint/parser": "latest",
     "add": "latest",
+    "babel-loader": "latest",
     "copy-webpack-plugin": "latest",
     "css-loader": "latest",
     "eslint": "latest",
@@ -18,8 +18,6 @@
     "html-loader": "latest",
     "html-webpack-plugin": "latest",
     "prettier": "latest",
-    "sass": "^1.63.6",
-    "sass-loader": "^13.3.2",
     "style-loader": "^3.3.3",
     "ts-loader": "latest",
     "typescript": "latest",
@@ -29,7 +27,6 @@
   },
   "dependencies": {
     "html-webpack-plugin": "latest",
-    "mini-css-extract-plugin": "latest",
     "webpack-merge": "latest"
   },
   "scripts": {
@@ -37,5 +34,5 @@
     "start": "webpack serve --progress --node-env development -c config/webpack.dev.js",
     "lint:stylelint": "stylelint \"src/app/**/*.scss\" --fix",
     "lint": "eslint \"src/app/**/*.ts\" --fix"
-    }
   }
+}
