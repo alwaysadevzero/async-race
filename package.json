@@ -1,0 +1,40 @@
+{
+  "devDependencies": {
+    "@babel/core": "latest",
+    "babel-loader": "latest",
+    "@babel/preset-env": "latest",
+    "@types/css-modules": "latest",
+    "@typescript-eslint/eslint-plugin": "latest",
+    "@typescript-eslint/parser": "latest",
+    "add": "latest",
+    "copy-webpack-plugin": "latest",
+    "css-loader": "latest",
+    "eslint": "latest",
+    "eslint-config-airbnb-typescript": "latest",
+    "eslint-config-prettier": "latest",
+    "eslint-plugin-import": "latest",
+    "eslint-plugin-prettier": "latest",
+    "eslint-webpack-plugin": "^4.0.1",
+    "html-loader": "latest",
+    "html-webpack-plugin": "latest",
+    "prettier": "latest",
+    "sass": "^1.63.6",
+    "sass-loader": "^13.3.2",
+    "style-loader": "^3.3.3",
+    "ts-loader": "latest",
+    "typescript": "latest",
+    "webpack": "latest",
+    "webpack-cli": "latest",
+    "webpack-dev-server": "latest"
+  },
+  "dependencies": {
+    "html-webpack-plugin": "latest",
+    "mini-css-extract-plugin": "latest",
+    "webpack-merge": "latest"
+  },
+  "scripts": {
+    "build": "webpack --progress",
+    "start": "webpack serve --progress --node-env development -c config/webpack.dev.js",
+    "lint": "eslint ./src"
+  }
+}
