@@ -3,6 +3,7 @@ type ComponentProps<T> = {
   tag: T
   className: string
   content: string
+  attributes: Record<string, string> | null
 }
 
 export default class BaseComponent<
@@ -15,11 +16,13 @@ export default class BaseComponent<
     tag = "div" as T,
     className = "",
     content = "",
+    attributes = null,
   }: Partial<ComponentProps<T>>) {
     this.node = document.createElement(tag)
     this.node.className = className
     this.node.innerHTML = content
     parent?.append(this.node)
+    if (attributes) this.setAttributes(attributes)
   }
 
   public remove(): void {
