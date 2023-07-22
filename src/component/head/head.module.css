@@ -1,0 +1,18 @@
+.title {
+  font-size: 4em;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  max-height: 100px;
+  gap: 5vw;
+}
