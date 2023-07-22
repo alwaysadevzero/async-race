@@ -4,8 +4,8 @@ import styles from "./head.module.css"
 
 export class HeadComponent extends BaseComponent<"header"> {
   constructor() {
-    super({ tag: "header", className: "container" })
-    this.setClass(styles.container)
+    super({ tag: "header", className: `${styles.container}` })
+    // this.setClass(styles.container)
     this.initComponent()
   }
 
