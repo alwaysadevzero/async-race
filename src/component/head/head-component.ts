@@ -2,18 +2,14 @@ import BaseComponent from "../../utils/baseComponent"
 import { Pages } from "../../enums/enum-pages"
 import styles from "./head.module.css"
 
-export class HeadComponent extends BaseComponent {
-  private garageButton!: BaseComponent
-
-  private winnersButtonButton!: BaseComponent
-
+export class HeadComponent extends BaseComponent<"header"> {
   constructor() {
-    super({ className: "container" })
+    super({ tag: "header", className: "container" })
     this.setClass(styles.container)
     this.initComponent()
   }
 
-  private initComponent() {
+  private initComponent = () => {
     const title = new BaseComponent({
       tag: "h1",
       content: "Async Race",
@@ -22,20 +18,23 @@ export class HeadComponent extends BaseComponent {
     })
 
     const buttonsWrapper = new BaseComponent({
+      tag: "nav",
       className: styles.wrapper,
       parent: this.node,
     })
 
-    this.garageButton = new BaseComponent({
-      tag: "button",
+    const garageButton = new BaseComponent({
+      tag: "a",
       parent: buttonsWrapper.node,
-      content: "garage",
+      content: Pages.GARAGE,
+      attributes: { role: "button", href: `#${Pages.GARAGE}` },
     })
 
-    this.winnersButtonButton = new BaseComponent({
-      tag: "button",
+    const winnersButtonButton = new BaseComponent({
+      tag: "a",
       parent: buttonsWrapper.node,
-      content: "winners",
+      content: Pages.WINERS,
+      attributes: { role: "button", href: `#${Pages.WINERS}` },
     })
   }
 }

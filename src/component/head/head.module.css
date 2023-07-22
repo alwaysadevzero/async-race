@@ -1,5 +1,6 @@
 .title {
   font-size: 4em;
+  margin: 0;
 }
 
 .container {
@@ -8,6 +9,7 @@
   justify-content: space-around;
   align-items: center;
   flex-wrap: wrap;
+  padding-top: 0;
 }
 
 .wrapper {
