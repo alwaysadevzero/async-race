@@ -31,7 +31,7 @@ export class FooterComponent extends BaseComponent<"footer"> {
     })
 
     const links = LINKS.map((link) => {
-      const li = new BaseComponent<"li">({ tag: "li" })
+      const li = new BaseComponent<"li">({ tag: "li", parent: ul.node })
       const a = new BaseComponent<"a">({
         tag: "a",
         parent: li.node,
@@ -41,7 +41,5 @@ export class FooterComponent extends BaseComponent<"footer"> {
       })
       return li
     })
-
-    ul.append(...links)
   }
 }
