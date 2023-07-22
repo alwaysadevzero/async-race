@@ -1,6 +1,6 @@
 const BASE_URL = "http://127.0.0.1:3000"
 
-class RaceApi {
+export default class RaceApi {
   public async getCars(page: number, limit: number) {
     const response = await fetch(
       `${BASE_URL}/garage?_page=${page || ""}&_limit=${limit || ""}`
@@ -110,4 +110,3 @@ class RaceApi {
     return response.json()
   }
 }
-export default new RaceApi()
