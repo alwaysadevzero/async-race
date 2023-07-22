@@ -1,9 +1,9 @@
 import { Events } from "../enums/enum-events"
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type Listener = (args: any) => void
+type Listener = (args: any) => void
 
-class EventEmitter {
+export default class EventEmitter {
   private listeners: Record<string, Listener[]> = {}
 
   public events: typeof Events = Events
@@ -28,5 +28,3 @@ class EventEmitter {
     this.listeners[event].forEach((listener) => listener(data))
   }
 }
-
-export default new EventEmitter()

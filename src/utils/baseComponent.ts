@@ -1,9 +1,12 @@
+import EventEmitter from "./eventEmmiter"
+
 type ComponentProps<T> = {
   parent: HTMLElement | null
   tag: T
   className: string
   content: string
   attributes: Record<string, string> | null
+  eventEmmiter?: EventEmitter | null
 }
 
 export default class BaseComponent<
