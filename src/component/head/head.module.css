@@ -9,7 +9,7 @@
   justify-content: space-around;
   align-items: center;
   flex-wrap: wrap;
-  padding-top: 0;
+  padding: 0;
 }
 
 .wrapper {
