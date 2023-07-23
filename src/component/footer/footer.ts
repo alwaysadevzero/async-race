@@ -1,4 +1,5 @@
 import BaseComponent from "../../utils/baseComponent"
+import styles from "./footer.module.css"
 
 const LINKS = [
   { href: "https://rs.school/", content: "RS School" },
@@ -13,7 +14,7 @@ export class FooterComponent extends BaseComponent<"footer"> {
   constructor() {
     super({
       tag: "footer",
-      className: `container`,
+      className: styles.footer
     })
     this.initComponent()
   }
@@ -23,6 +24,7 @@ export class FooterComponent extends BaseComponent<"footer"> {
       tag: "nav",
       attributes: { "aria-label": "breadcrumb" },
       parent: this.node,
+      className: styles.wrapper,
     })
 
     const ul = new BaseComponent<"ul">({
