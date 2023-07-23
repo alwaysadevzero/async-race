@@ -1,0 +1,24 @@
+.updater {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  align-items: flex-end;
+  margin: 0;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+input.color {
+  width: 50px;
+  padding: 2px;
+}
+
+.button {
+  max-width: 100px;
+  display: flex;
+  flex-wrap: nowrap;
+}
