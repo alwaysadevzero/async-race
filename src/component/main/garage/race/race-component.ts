@@ -9,8 +9,8 @@ export default class RaceComponent extends BaseComponent {
 
   private carsArr: CarComponent[] = []
 
-  constructor(params: { parent: HTMLElement }) {
-    super({ parent: params.parent, className: styles.race })
+  constructor() {
+    super({ className: styles.race })
     this.initListeners()
   }
 
