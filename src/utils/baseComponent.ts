@@ -5,8 +5,7 @@ type ComponentProps<T> = {
   tag: T
   className: string
   content: string
-  attributes: Record<string, string> | null
-  eventEmmiter?: EventEmitter | null
+  attributes?: Record<string, string> | null
 }
 
 export default class BaseComponent<
