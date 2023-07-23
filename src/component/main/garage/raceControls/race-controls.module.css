@@ -1,0 +1,9 @@
+.raceControls {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  width: fit-content;
+  padding: 20px 10px 0;
+  margin: 0;
+  height: fit-content;
+}
