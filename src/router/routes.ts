@@ -6,7 +6,7 @@ export const Routes: Route[] = [
     name: Pages.GARAGE,
     component: async () => {
       const { GarageComponent } = await import(
-        "../component/main/garage/garage-component"
+        "../component/main/garage/garagePage-component"
       )
       return new GarageComponent()
     },
@@ -15,7 +15,7 @@ export const Routes: Route[] = [
     name: Pages.WINERS,
     component: async () => {
       const { WinnersComponent } = await import(
-        "../component/main/winners/winners-component"
+        "../component/main/winners/winnersPage-component"
       )
       return new WinnersComponent()
     },
