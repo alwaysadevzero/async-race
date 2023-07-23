@@ -11,7 +11,7 @@ interface ActiveRoute {
 export default class Router {
   private activeRoutes: ActiveRoute[] = []
 
-  private defaultPage = Pages.WINERS
+  private defaultPage = Pages.GARAGE
 
   private wrapper: HTMLElement
 
@@ -22,6 +22,10 @@ export default class Router {
   }
 
   private handleHashChange = async () => {
+    if (!window.location.hash) {
+      window.location.hash = `#${this.defaultPage}`
+    }
+
     const hash: Pages =
       (window.location.hash.slice(1) as Pages) || this.defaultPage
 
