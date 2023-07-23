@@ -1,4 +1,5 @@
 import "./styles.css"
+import "./pico.min.css"
 import { HeadComponent } from "./component/head/head-component"
 import { MainComponent } from "./component/main/main-component"
 import { FooterComponent } from "./component/footer/footer"
