@@ -1,6 +1,6 @@
 export interface GarageState {
   currentPage: number
-  carsLength: 7
+  carsLength: number
   pageLength: null | number
+  generateLength: number
 }
-

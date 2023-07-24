@@ -1,11 +1,13 @@
 import RaceApi from "../services/race-api"
 import { Car } from "../interfaces/car.interface"
 import { GarageState } from "../interfaces/garage-state.interface"
+import generateCars from "../utils/createRandomCar"
 
 const STATE: GarageState = {
   currentPage: 1,
   pageLength: null,
   carsLength: 7,
+  generateLength: 100,
 }
 
 export default class GarageModel {
@@ -28,6 +30,10 @@ export default class GarageModel {
       this.state.currentPage -= 1
       return true
     }
+    return false
+  }
+
+  public async generateCars(): Promise<boolean> {
     return false
   }
 
