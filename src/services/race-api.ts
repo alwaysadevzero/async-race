@@ -23,6 +23,7 @@ export default class RaceApi {
       name,
       color,
     }
+
     const response = await fetch(`${BASE_URL}/garage`, {
       method: "POST",
       headers: {

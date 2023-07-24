@@ -1,6 +1,7 @@
 import styles from "./race-controls.module.css"
 
 import BaseComponent from "../../../../utils/baseComponent"
+import garageEventEmmiter from "../../../../services/garage-eventEmmiter"
 
 export default class RaceControlsComponent extends BaseComponent<"article"> {
   private raceButton!: BaseComponent
@@ -12,6 +13,13 @@ export default class RaceControlsComponent extends BaseComponent<"article"> {
   constructor() {
     super({ tag: "article", className: styles.raceControls })
     this.initComponent()
+    this.initListeners()
+  }
+
+  private initListeners = () => {
+    this.generateButton.addListener("click", () => {
+      garageEventEmmiter.emit(garageEventEmmiter.events.GENERATE_CARS)
+    })
   }
 
   private initComponent = () => {

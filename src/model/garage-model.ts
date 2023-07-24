@@ -1,11 +1,13 @@
 import RaceApi from "../services/race-api"
 import { Car } from "../interfaces/car.interface"
 import { GarageState } from "../interfaces/garage-state.interface"
+import generateCars from "../utils/createRandomCar"
 
 const STATE: GarageState = {
   currentPage: 1,
   pageLength: null,
   carsLength: 7,
+  generateLength: 100,
 }
 
 export default class GarageModel {
@@ -27,6 +29,21 @@ export default class GarageModel {
     if (this.state.currentPage > 1) {
       this.state.currentPage -= 1
       return true
+    }
+    return false
+  }
+
+  public async generateCars(): Promise<boolean> {
+    try {
+      const carsToGenerate = generateCars(this.state.generateLength)
+      const creationPromises = carsToGenerate.map((car) => {
+        return this.api.createCar(car.name, car.color)
+      })
+
+      const statuses = await Promise.all(creationPromises)
+      if (statuses.every((status) => status === 201)) return true
+    } catch (error) {
+      console.error("Error generating cars:", error)
     }
     return false
   }

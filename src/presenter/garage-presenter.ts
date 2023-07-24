@@ -31,10 +31,20 @@ export default class GaragePresenter {
       garageEventEmmiter.events.DELETE_CAR,
       this.deleteCar.bind(this)
     )
+    garageEventEmmiter.on(
+      garageEventEmmiter.events.GENERATE_CARS,
+      this.generateCars.bind(this)
+    )
   }
 
   private changeCar = (car: Car) => {
     garageEventEmmiter.emit(garageEventEmmiter.events.DRAW_CHANGE, car)
+  }
+
+  private async generateCars() {
+    const isGenerated: boolean = await this.garageModel.generateCars()
+    console.log(isGenerated)
+    if (isGenerated) this.updateCars()
   }
 
   private async deleteCar(id: number) {
