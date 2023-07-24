@@ -55,7 +55,7 @@ const createRandomCar = () => {
 
 const generateCars = (length: number): Omit<Car, "id">[] => {
   const cars: Omit<Car, "id">[] = []
-  for (let i = 0; i < length; i++) {
+  for (let i = 0; i < length; i += 1) {
     cars.push(createRandomCar())
   }
   return cars
