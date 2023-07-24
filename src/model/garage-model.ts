@@ -30,12 +30,11 @@ export default class GarageModel {
 
   private isValidCarResponse(
     response: any
-  ): response is { cars: Car[]; totalCount: string | null; page: number } {
+  ): response is { cars: Car[]; totalCount: string; page: number } {
     return (
       response &&
       response.cars &&
-      (typeof response.totalCount === "string" ||
-        response.totalCount === null) &&
+      typeof response.totalCount === "string" &&
       typeof response.page === "number"
     )
   }
