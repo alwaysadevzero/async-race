@@ -19,6 +19,12 @@
   gap: 20px;
 }
 
+@media (min-width: 1050px) {
+  .wrapper {
+    flex-wrap: nowrap;
+  }
+}
+
 .GarageComponent {
   display: flex;
   flex-direction: column;
