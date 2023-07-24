@@ -1,8 +1,9 @@
 import styles from "./garagePage.module.css"
 import BaseComponent from "../../../utils/baseComponent"
 
+import garageEventEmmiter from "../../../services/garage-eventEmmiter"
+
 import GaragePresenter from "../../../presenter/garage-presenter"
-import { GarageState } from "../../../interfaces/garage-state.interface"
 import GarageModel from "../../../model/garage-model"
 
 import RaceComponent from "./race/race-component"
@@ -13,11 +14,6 @@ import RaceControlsComponent from "./raceControls/race-controls-component"
 import PanelComponent from "../../../shared/component/panel/panel-component"
 import NavigationComponent from "../../../shared/component/navigation/navigation-component"
 
-const STATE: GarageState = {
-  currentPage: 1,
-  length: 7,
-}
-
 export class GarageComponent extends BaseComponent<"article"> {
   constructor() {
     super({ className: styles.GarageComponent })
@@ -26,7 +22,7 @@ export class GarageComponent extends BaseComponent<"article"> {
   }
 
   private initDependinces = () => {
-    const garageModel = new GarageModel(STATE)
+    const garageModel = new GarageModel()
     const garagePresenter = new GaragePresenter(garageModel)
   }
 
@@ -43,7 +39,7 @@ export class GarageComponent extends BaseComponent<"article"> {
     })
 
     const raceControls = new RaceControlsComponent()
-    const navigation = new NavigationComponent()
+    const navigation = new NavigationComponent(garageEventEmmiter)
     controlsWrapper.append(raceControls, navigation)
 
     const creatorWrapper = new BaseComponent({
