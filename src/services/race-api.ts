@@ -42,7 +42,7 @@ export default class RaceApi {
     return response.status
   }
 
-  public async updateCar(car: Car): Promise<Omit<Car, "id">> {
+  public async updateCar(car: Car): Promise<Omit<Car, "id"> | undefined> {
     const carObj = {
       name: car.name,
       color: car.color,
@@ -54,8 +54,20 @@ export default class RaceApi {
       },
       body: JSON.stringify(carObj),
     })
-    if (response.status === 404) throw new Error("Car not found")
-    return response.json()
+    try {
+      if (response.status === 404) {
+        throw new Error("Car not found")
+      }
+    } catch {
+      return undefined
+    }
+
+    const updatedCar = await response.json()
+    if (!updatedCar) {
+      return undefined
+    }
+
+    return updatedCar
   }
 
   public async setCarEngineStatus(id: number, status: number) {
