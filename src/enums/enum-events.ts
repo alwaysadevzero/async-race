@@ -5,6 +5,7 @@ export enum Events {
   CREATE_CAR,
   UPDATE_CAR,
   CHANGE_CAR,
+  DELETE_CAR,
 
   DRAW_UPDATE,
   DRAW_CHANGE,

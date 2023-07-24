@@ -37,6 +37,12 @@ export default class GarageModel {
     return false
   }
 
+  public async deleteCar(id: number): Promise<boolean> {
+    const status = await this.api.deleteCar(id)
+    if (status) return true
+    return false
+  }
+
   public async createCar(params: {
     carName: string
     carColor: string

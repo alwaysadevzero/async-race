@@ -18,21 +18,28 @@ export default class GaragePresenter {
       garageEventEmmiter.events.PREVIOUS_PAGE,
       this.previosPage.bind(this)
     )
-
     garageEventEmmiter.on(
       garageEventEmmiter.events.CREATE_CAR,
       this.createCar.bind(this)
     )
-
     garageEventEmmiter.on(garageEventEmmiter.events.CHANGE_CAR, this.changeCar)
     garageEventEmmiter.on(
       garageEventEmmiter.events.UPDATE_CAR,
       this.updateCar.bind(this)
     )
+    garageEventEmmiter.on(
+      garageEventEmmiter.events.DELETE_CAR,
+      this.deleteCar.bind(this)
+    )
   }
 
   private changeCar = (car: Car) => {
     garageEventEmmiter.emit(garageEventEmmiter.events.DRAW_CHANGE, car)
+  }
+
+  private async deleteCar(id: number) {
+    const isDeleted: boolean = await this.garageModel.deleteCar(id)
+    if (isDeleted) this.updateCars()
   }
 
   private async updateCar(car: Car) {

@@ -33,12 +33,12 @@ export default class RaceApi {
     return response.status
   }
 
-  public async deleteCar(id: number) {
+  public async deleteCar(id: number): Promise<number> {
     const response = await fetch(`${BASE_URL}/garage/${id}`, {
       method: "DELETE",
     })
     if (response.status === 404) throw new Error("Car not found")
-    return response.json()
+    return response.status
   }
 
   public async updateCar(car: Car): Promise<Omit<Car, "id">> {
