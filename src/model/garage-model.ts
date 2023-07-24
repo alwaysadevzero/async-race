@@ -31,6 +31,15 @@ export default class GarageModel {
     return false
   }
 
+  public async createCar(params: {
+    carName: string
+    carColor: string
+  }): Promise<boolean> {
+    const status = await this.api.createCar(params.carName, params.carColor)
+    if (status === 201) return true
+    return false
+  }
+
   public async getCars(): Promise<
     { cars: Car[]; totalCount: string | null; page: number } | undefined
   > {

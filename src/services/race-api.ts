@@ -4,12 +4,12 @@ const BASE_URL = "http://127.0.0.1:3000"
 
 export default class RaceApi {
   public async getCars(page: number, limit: number) {
-      const response = await fetch(
-        `${BASE_URL}/garage?_page=${page || ""}&_limit=${limit || ""}`
-      )
-      const cars: Car[] = await response.json()
-      const totalCount = response.headers.get("X-Total-Count")
-    return { cars, totalCount, page}
+    const response = await fetch(
+      `${BASE_URL}/garage?_page=${page || ""}&_limit=${limit || ""}`
+    )
+    const cars: Car[] = await response.json()
+    const totalCount = response.headers.get("X-Total-Count")
+    return { cars, totalCount, page }
   }
 
   public async getCar(id: number) {
@@ -18,7 +18,11 @@ export default class RaceApi {
     return response.json()
   }
 
-  public async createCar(car: number) {
+  public async createCar(name: string, color: string) {
+    const car = {
+      name,
+      color,
+    }
     const response = await fetch(`${BASE_URL}/garage`, {
       method: "POST",
       headers: {
@@ -26,7 +30,7 @@ export default class RaceApi {
       },
       body: JSON.stringify(car),
     })
-    return response.json()
+    return response.status
   }
 
   public async deleteCar(id: number) {

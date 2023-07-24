@@ -2,6 +2,8 @@ export enum Events {
   SWITCH_PAGE,
   NEXT_PAGE,
   PREVIOUS_PAGE,
+  CREATE_CAR,
+  UPDATE_CAR,
 
   DRAW_CARS,
   DRAW_PANEL,

@@ -17,20 +17,26 @@ export default class GaragePresenter {
       garageEventEmmiter.events.PREVIOUS_PAGE,
       this.previosPage.bind(this)
     )
+
+    garageEventEmmiter.on(
+      garageEventEmmiter.events.CREATE_CAR,
+      this.createCar.bind(this)
+    )
+  }
+
+  private async createCar(params: { carName: string; carColor: string }) {
+    const isCreate: boolean = await this.garageModel.createCar(params)
+    if (isCreate) this.updateCars()
   }
 
   private async nextPage() {
     const isNext: boolean = this.garageModel.nextPage()
-    if (isNext) {
-      this.updateCars()
-    }
+    if (isNext) this.updateCars()
   }
 
   private async previosPage() {
     const isPrevious: boolean = this.garageModel.previousPage()
-    if (isPrevious) {
-      this.updateCars()
-    }
+    if (isPrevious) this.updateCars()
   }
 
   private async updateCars() {
