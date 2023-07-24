@@ -31,6 +31,12 @@ export default class GarageModel {
     return false
   }
 
+  public async updateCar(car: Car): Promise<boolean> {
+    const data = await this.api.updateCar(car)
+    if (data?.name === car.name && data?.color === car.color) return true
+    return false
+  }
+
   public async createCar(params: {
     carName: string
     carColor: string

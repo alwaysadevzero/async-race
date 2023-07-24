@@ -1,52 +1,62 @@
 import styles from "./car-control.module.css"
 import BaseComponent from "../../../../../../utils/baseComponent"
+import garageEventEmmiter from "../../../../../../services/garage-eventEmmiter"
+import { Car } from "../../../../../../interfaces/car.interface"
 
 export default class CarControlComponent extends BaseComponent {
-  private buttonStart!: BaseComponent
+  private startButton!: BaseComponent
 
-  private buttonStop!: BaseComponent
+  private stopButtom!: BaseComponent
 
-  private buttonEdit!: BaseComponent
+  private editButtom!: BaseComponent
 
-  private buttonReset!: BaseComponent
+  private removeButtom!: BaseComponent
 
   private nameSpan!: BaseComponent
 
-  constructor() {
+  constructor(private car: Car) {
     super({ className: styles.CarControlComponent })
+    this.car = car
     this.initComponent()
+    this.initListeners()
   }
 
   public setName(name: string) {
     this.nameSpan.setContent(name)
   }
 
+  private initListeners = () => {
+    this.editButtom.addListener("click", () => {
+      garageEventEmmiter.emit(garageEventEmmiter.events.CHANGE_CAR, this.car)
+    })
+  }
+
   private initComponent = () => {
-    this.buttonStart = new BaseComponent<"button">({
+    this.startButton = new BaseComponent<"button">({
       tag: "button",
       content: "start",
       parent: this.node,
     })
-    this.buttonStop = new BaseComponent<"button">({
+    this.stopButtom = new BaseComponent<"button">({
       tag: "button",
       content: "stop",
       parent: this.node,
     })
-    this.buttonEdit = new BaseComponent<"button">({
+    this.editButtom = new BaseComponent<"button">({
       tag: "button",
       content: "edit",
       parent: this.node,
     })
-    this.buttonReset = new BaseComponent<"button">({
+    this.removeButtom = new BaseComponent<"button">({
       tag: "button",
-      content: "reset",
+      content: "remove",
       parent: this.node,
     })
 
     this.nameSpan = new BaseComponent<"span">({
       tag: "span",
       parent: this.node,
-      className: styles.name
+      className: styles.name,
     })
   }
 }

@@ -26,7 +26,7 @@ export default class RaceComponent extends BaseComponent {
       return
     }
     this.carsArr = cars.map((car) => {
-      const carComp = new CarComponent()
+      const carComp = new CarComponent(car)
       carComp.updateCar(car)
       return carComp
     })

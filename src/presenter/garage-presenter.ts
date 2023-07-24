@@ -1,5 +1,6 @@
 import GarageModel from "../model/garage-model"
 import garageEventEmmiter from "../services/garage-eventEmmiter"
+import { Car } from "../interfaces/car.interface"
 
 export default class GaragePresenter {
   constructor(private garageModel: GarageModel) {
@@ -22,6 +23,21 @@ export default class GaragePresenter {
       garageEventEmmiter.events.CREATE_CAR,
       this.createCar.bind(this)
     )
+
+    garageEventEmmiter.on(garageEventEmmiter.events.CHANGE_CAR, this.changeCar)
+    garageEventEmmiter.on(
+      garageEventEmmiter.events.UPDATE_CAR,
+      this.updateCar.bind(this)
+    )
+  }
+
+  private changeCar = (car: Car) => {
+    garageEventEmmiter.emit(garageEventEmmiter.events.DRAW_CHANGE, car)
+  }
+
+  private async updateCar(car: Car) {
+    const isCarUpdated: boolean = await this.garageModel.updateCar(car)
+    if (isCarUpdated) this.updateCars()
   }
 
   private async createCar(params: { carName: string; carColor: string }) {

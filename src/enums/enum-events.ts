@@ -4,7 +4,10 @@ export enum Events {
   PREVIOUS_PAGE,
   CREATE_CAR,
   UPDATE_CAR,
+  CHANGE_CAR,
 
+  DRAW_UPDATE,
+  DRAW_CHANGE,
   DRAW_CARS,
   DRAW_PANEL,
 }

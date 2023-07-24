@@ -7,12 +7,11 @@ import machineSVG from "../../../../../assets/machine.svg"
 export default class CarComponent extends BaseComponent {
   private trace: BaseComponent
 
-  private carControl = new CarControlComponent()
+  private carControl!: CarControlComponent
 
-  private id: number | null
-
-  constructor() {
+  constructor(private car: Car) {
     super({})
+    this.car = car
     this.initComponent()
   }
 
@@ -22,6 +21,7 @@ export default class CarComponent extends BaseComponent {
   }
 
   private initComponent = () => {
+    this.carControl = new CarControlComponent(this.car)
     this.append(this.carControl)
     const wrapper = new BaseComponent({
       className: styles.wrapper,

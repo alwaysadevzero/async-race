@@ -18,7 +18,7 @@ export default class RaceApi {
     return response.json()
   }
 
-  public async createCar(name: string, color: string) {
+  public async createCar(name: string, color: string): Promise<number> {
     const car = {
       name,
       color,
@@ -41,13 +41,17 @@ export default class RaceApi {
     return response.json()
   }
 
-  public async updateCar(id: number, car: number) {
-    const response = await fetch(`${BASE_URL}/garage/${id}`, {
+  public async updateCar(car: Car): Promise<Omit<Car, "id">> {
+    const carObj = {
+      name: car.name,
+      color: car.color,
+    }
+    const response = await fetch(`${BASE_URL}/garage/${car.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(car),
+      body: JSON.stringify(carObj),
     })
     if (response.status === 404) throw new Error("Car not found")
     return response.json()
