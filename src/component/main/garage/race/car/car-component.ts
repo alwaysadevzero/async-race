@@ -2,8 +2,12 @@ import styles from "./car.module.css"
 import BaseComponent from "../../../../../utils/baseComponent"
 import { Car } from "../../../../../interfaces/car.interface"
 import CarControlComponent from "./carControls/car-control-component"
+import machineSVG from "../../../../../assets/machine.svg"
+
 export default class CarComponent extends BaseComponent {
   private trace: BaseComponent
+
+  private carControl = new CarControlComponent()
 
   private id: number | null
 
@@ -12,11 +16,13 @@ export default class CarComponent extends BaseComponent {
     this.initComponent()
   }
 
-  public updateCar = (car: Car) => {}
+  public updateCar = (car: Car) => {
+    this.carControl.setName(car.name)
+    this.trace.node.style.setProperty("--car-color", car.color)
+  }
 
   private initComponent = () => {
-    const carControl = new CarControlComponent()
-    this.append(carControl)
+    this.append(this.carControl)
     const wrapper = new BaseComponent({
       className: styles.wrapper,
       parent: this.node,
@@ -25,7 +31,7 @@ export default class CarComponent extends BaseComponent {
       tag: "input",
       className: styles.trace,
       parent: wrapper.node,
-      attributes: { type: "range", value: "0", max: "50000" },
+      attributes: { type: "range", value: "0", max: "1" },
     })
   }
 }
