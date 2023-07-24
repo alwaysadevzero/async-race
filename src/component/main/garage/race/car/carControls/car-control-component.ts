@@ -10,9 +10,15 @@ export default class CarControlComponent extends BaseComponent {
 
   private buttonReset!: BaseComponent
 
+  private nameSpan!: BaseComponent
+
   constructor() {
     super({ className: styles.CarControlComponent })
     this.initComponent()
+  }
+
+  public setName(name: string) {
+    this.nameSpan.setContent(name)
   }
 
   private initComponent = () => {
@@ -35,6 +41,12 @@ export default class CarControlComponent extends BaseComponent {
       tag: "button",
       content: "reset",
       parent: this.node,
+    })
+
+    this.nameSpan = new BaseComponent<"span">({
+      tag: "span",
+      parent: this.node,
+      className: styles.name
     })
   }
 }
