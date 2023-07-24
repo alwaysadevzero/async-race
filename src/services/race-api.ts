@@ -1,4 +1,6 @@
 import { Car } from "../interfaces/car.interface"
+import { EngineStatus } from "../enums/enum-engine-status"
+import { Trace } from "../interfaces/trace.interface"
 
 const BASE_URL = "http://127.0.0.1:3000"
 
@@ -70,14 +72,59 @@ export default class RaceApi {
     return updatedCar
   }
 
-  public async setCarEngineStatus(id: number, status: number) {
+  public async startEngine(id: number): Promise<Trace | undefined> {
     const response = await fetch(
-      `${BASE_URL}/engine?id=${id}&status=${status}`,
+      `${BASE_URL}/engine?id=${id}&status=${EngineStatus.START}`,
       {
         method: "PATCH",
       }
     )
-    return response.json()
+    if (response.status === 200) return response.json()
+    try {
+      if (response.status === 404) throw new Error("Car not found")
+      if (response.status === 400)
+        throw new Error("Car with such id was not found in the garage.")
+    } catch {
+      console.warn("Failed start engine")
+    }
+    return undefined
+  }
+
+  public async stopEngine(id: number): Promise<boolean> {
+    const response = await fetch(
+      `${BASE_URL}/engine?id=${id}&status=${EngineStatus.STOP}`,
+      {
+        method: "PATCH",
+      }
+    )
+    if (response.status === 200) return true
+    try {
+      if (response.status === 404) throw new Error("Car not found")
+      if (response.status === 400)
+        throw new Error("Car with such id was not found in the garage.")
+    } catch {
+      console.warn("Failed stop engine")
+    }
+    return false
+  }
+
+  public async driveEngine(id: number): Promise<boolean> {
+    const response = await fetch(
+      `${BASE_URL}/engine?id=${id}&status=${EngineStatus.DRIVE}`,
+      {
+        method: "PATCH",
+      }
+    )
+    if (response.status === 200) return true
+    if (response.status === 500) return false
+    try {
+      if (response.status === 404) throw new Error("Car not found")
+      if (response.status === 400)
+        throw new Error("Car with such id was not found in the garage.")
+    } catch {
+      console.warn("Failed drive car")
+    }
+    return false
   }
 
   public async getWinners(
