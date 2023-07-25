@@ -23,6 +23,10 @@ export default class RaceControlsComponent extends BaseComponent<"article"> {
     this.raceButton.addListener("click", () => {
       garageEventEmmiter.emit(garageEventEmmiter.events.START_RACE)
     })
+
+    this.resetButton.addListener("click", () => {
+      garageEventEmmiter.emit(garageEventEmmiter.events.STOP_RACE)
+    })
   }
 
   private initComponent = () => {

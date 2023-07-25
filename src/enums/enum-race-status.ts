@@ -1,4 +1,4 @@
 export enum Race {
-  SRART,
+  START,
   STOP,
 }

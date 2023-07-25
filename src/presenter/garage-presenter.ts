@@ -40,32 +40,53 @@ export default class GaragePresenter {
       this.startCar.bind(this)
     )
     garageEventEmmiter.on(garageEventEmmiter.events.START_RACE, this.startRace)
+    garageEventEmmiter.on(garageEventEmmiter.events.STOP_RACE, this.stopRace)
+    garageEventEmmiter.on(garageEventEmmiter.events.STOP_CAR, this.resetCar)
   }
 
-  private startRace = async () => {
+  private startRace = () => {
+    const isRaceStarted = this.garageModel.startRace()
+    if (!isRaceStarted) return
     garageEventEmmiter.emit(garageEventEmmiter.events.DRAW_RACE)
   }
 
+  private stopRace = () => {
+    console.log(767777)
+    const isRaceStarted = this.garageModel.stopRace()
+    if (!isRaceStarted) return
+    garageEventEmmiter.emit(garageEventEmmiter.events.DRAW_STOP_RACE)
+  }
+
   private changeCar = (car: Car) => {
+    if (this.garageModel.animationStatus) return
     garageEventEmmiter.emit(garageEventEmmiter.events.DRAW_CHANGE, car)
   }
 
   private async startCar(carId: number) {
-    console.log(carId)
     const trace = await this.garageModel.startCar(carId)
     if (trace)
       garageEventEmmiter.emit(garageEventEmmiter.events.DRAW_START, {
         carId,
         trace,
       })
+    const engineStatus = await this.garageModel.driveCar(carId)
+    if (!engineStatus)
+      garageEventEmmiter.emit(garageEventEmmiter.events.DRAW_STOP, carId)
+  }
+
+  private resetCar = async (carId: number) => {
+    const isCarStopped = await this.garageModel.stopCar(carId)
+    garageEventEmmiter.emit(garageEventEmmiter.events.DRAW_RESET, carId)
   }
 
   private async generateCars() {
+    if (this.garageModel.animationStatus) return
     const isGenerated: boolean = await this.garageModel.generateCars()
     if (isGenerated) this.updateCars()
   }
 
   private async deleteCar(id: number) {
+    if (this.garageModel.animationStatus) return
     if (!(await this.garageModel.deleteCar(id))) return
 
     const data = await this.garageModel.getCars()
@@ -81,26 +102,31 @@ export default class GaragePresenter {
   }
 
   private async updateCar(car: Car) {
+    if (this.garageModel.animationStatus) return
     const isCarUpdated: boolean = await this.garageModel.updateCar(car)
     if (isCarUpdated) this.updateCars()
   }
 
   private async createCar(params: { carName: string; carColor: string }) {
+    if (this.garageModel.animationStatus) return
     const isCreate: boolean = await this.garageModel.createCar(params)
     if (isCreate) this.updateCars()
   }
 
   private async nextPage() {
+    if (this.garageModel.animationStatus) return
     const isNext: boolean = this.garageModel.nextPage()
     if (isNext) this.updateCars()
   }
 
   private async previosPage() {
+    if (this.garageModel.animationStatus) return
     const isPrevious: boolean = this.garageModel.previousPage()
     if (isPrevious) this.updateCars()
   }
 
   private async updateCars() {
+    if (this.garageModel.animationStatus) return
     const data = await this.garageModel.getCars()
     if (data) {
       garageEventEmmiter.emit(garageEventEmmiter.events.DRAW_CARS, data.cars)

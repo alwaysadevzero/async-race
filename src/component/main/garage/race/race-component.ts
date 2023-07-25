@@ -16,13 +16,28 @@ export default class RaceComponent extends BaseComponent {
 
   private initListeners = () => {
     garageEventEmmiter.on(garageEventEmmiter.events.DRAW_CARS, this.drawCars)
-    garageEventEmmiter.on(garageEventEmmiter.events.DRAW_RACE, this.drawRace)
+    garageEventEmmiter.on(
+      garageEventEmmiter.events.DRAW_RACE,
+      this.drawStartRace
+    )
+    garageEventEmmiter.on(
+      garageEventEmmiter.events.DRAW_STOP_RACE,
+      this.drawStopRace
+    )
   }
 
-  private drawRace = () => {
+  private drawStartRace = () => {
     if (!this.carsArr) return
     this.carsArr.forEach((car) => {
       garageEventEmmiter.emit(garageEventEmmiter.events.START_CAR, car.car.id)
+    })
+  }
+
+  private drawStopRace = () => {
+    console.log(24242)
+    if (!this.carsArr) return
+    this.carsArr.forEach((car) => {
+      garageEventEmmiter.emit(garageEventEmmiter.events.STOP_CAR, car.car.id)
     })
   }
 

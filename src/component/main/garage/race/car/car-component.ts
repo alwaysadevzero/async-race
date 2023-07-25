@@ -28,11 +28,24 @@ export default class CarComponent extends BaseComponent {
 
   private initListeners = () => {
     garageEventEmmiter.on(garageEventEmmiter.events.DRAW_START, this.startCar)
+    garageEventEmmiter.on(garageEventEmmiter.events.DRAW_STOP, this.stopCar)
+    garageEventEmmiter.on(garageEventEmmiter.events.DRAW_RESET, this.resetCar)
   }
 
   private startCar = (params: { carId: number; trace: Trace }) => {
     if (params.carId !== this.car.id || this.animationId) return
     this.startAnimation(params.trace)
+  }
+
+  private stopCar = (carId: number) => {
+    if (carId !== this.car.id || !this.animationId) return
+    this.stopAnimation()
+  }
+
+  private resetCar = (carId: number) => {
+    if (carId !== this.car.id) return
+    if (this.animationId) this.stopAnimation()
+    this.trace.setAttributes({ value: `${0}` })
   }
 
   private startAnimation = (trace: Trace) => {
@@ -51,9 +64,10 @@ export default class CarComponent extends BaseComponent {
   }
 
   private stopAnimation = () => {
+    if (!this.animationId) return
     cancelAnimationFrame(this.animationId)
     this.animationId = 0
-    this.trace.setAttributes({ value: `${0}` })
+    // this.trace.setAttributes({ value: `${0}` })
   }
 
   private initComponent = () => {

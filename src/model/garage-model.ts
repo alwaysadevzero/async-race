@@ -3,6 +3,7 @@ import { Car } from "../interfaces/car.interface"
 import { GarageState } from "../interfaces/garage-state.interface"
 import generateCars from "../utils/createRandomCar"
 import { Trace } from "../interfaces/trace.interface"
+import { Race } from "../enums/enum-race-status"
 
 const state: GarageState = {
   currentPage: 1,
@@ -10,12 +11,33 @@ const state: GarageState = {
   carsLength: 7,
   generateLength: 100,
   activeCarsId: [],
+  raceStatus: Race.STOP,
 }
 
 export default class GarageModel {
   private api = new RaceApi()
 
   private state = state
+
+  public get animationStatus(): boolean {
+    return this.state.activeCarsId.length > 0
+  }
+
+  public startRace = (): false | true => {
+    if (this.state.raceStatus === Race.STOP) {
+      this.state.raceStatus = Race.START
+      return true
+    }
+    return false
+  }
+
+  public stopRace = (): false | true => {
+    if (this.state.raceStatus === Race.START) {
+      this.state.raceStatus = Race.STOP
+      return true
+    }
+    return false
+  }
 
   public nextPage = (): false | true => {
     if (!this.state?.pageLength) return false
@@ -38,13 +60,27 @@ export default class GarageModel {
   public async startCar(carId: number): Promise<Trace | undefined> {
     if (this.state.activeCarsId.includes(carId)) return undefined
 
-    console.log(carId, this.state.activeCarsId)
     const response = await this.api.startEngine(carId)
     if (response) {
-      await this.state.activeCarsId.push(carId)
+      this.state.activeCarsId.push(carId)
       return response
     }
     return undefined
+  }
+
+  public async stopCar(carId: number): Promise<boolean> {
+    if (!this.state.activeCarsId.includes(carId)) return false
+    this.state.activeCarsId = this.state.activeCarsId.filter(
+      (car) => car !== car
+    )
+    const status = await this.api.stopEngine(carId)
+    return status
+  }
+
+  public async driveCar(carId: number): Promise<boolean> {
+    if (!this.state.activeCarsId.includes(carId)) return false
+    const status = await this.api.driveEngine(carId)
+    return status
   }
 
   public async generateCars(): Promise<boolean> {
@@ -91,15 +127,12 @@ export default class GarageModel {
         this.state.currentPage,
         this.state.carsLength
       )
-
       if (this.isValidCarResponse(response)) {
         this.state.currentPage = response.page
         this.state.pageLength = Math.ceil(
           +response.totalCount / this.state.carsLength
         )
-
         this.state
-
         return response
       }
       throw new Error("Invalid car data received")
