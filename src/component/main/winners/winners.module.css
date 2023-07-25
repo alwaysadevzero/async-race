@@ -1,0 +1,11 @@
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.WinnersComponent {
+  width: fit-content;
+  margin: auto;
+  background-color: var(--card-background-color);
+}

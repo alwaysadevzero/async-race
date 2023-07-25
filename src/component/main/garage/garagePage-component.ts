@@ -31,7 +31,7 @@ export class GarageComponent extends BaseComponent<"article"> {
       parent: this.node,
       className: styles.wrapper,
     })
-    const panel = new PanelComponent()
+    const panel = new PanelComponent(garageEventEmmiter)
     wrapper.append(panel)
     const controlsWrapper = new BaseComponent({
       parent: wrapper.node,
