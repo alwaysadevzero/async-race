@@ -5,10 +5,19 @@ import NavigationComponent from "../../../shared/component/navigation/navigation
 import winnerEventEmmiter from "../../../services/winners-eventEmmiter"
 import WinTableComponent from "./winnerTable/winner-table-component"
 
+import WinnerPresenter from "../../../presenter/winners-presenter"
+import WinnerModel from "../../../model/winner-model"
+
 export class WinnersComponent extends BaseComponent {
   constructor() {
     super({ className: styles.WinnersComponent })
     this.initComponent()
+    this.initDependinces()
+  }
+
+  private initDependinces = () => {
+    const winnerModel = new WinnerModel()
+    const winnerPresenter = new WinnerPresenter(winnerModel)
   }
 
   private initComponent = () => {

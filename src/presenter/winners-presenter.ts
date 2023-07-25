@@ -1,11 +1,22 @@
 import winnerEventEmmiter from "../services/winners-eventEmmiter"
-import Winner from "../interfaces/winner.interface"
 import WinnerModel from "../model/winner-model"
 
-export default class GaragePresenter {
+export default class WinnerPresenter {
   constructor(private winnerModerl: WinnerModel) {
-    // this.initListeners()
-    this.updateWinners()
+    this.getWinners()
   }
 
+  private getWinners = async () => {
+    const winners = await this.winnerModerl.getWinners()
+    if (winners) {
+      winnerEventEmmiter.emit(
+        winnerEventEmmiter.events.DRAW_CARS,
+        winners.winners
+      )
+      winnerEventEmmiter.emit(winnerEventEmmiter.events.DRAW_PANEL, {
+        total: winners.totalCount,
+        page: winners.page,
+      })
+    }
+  }
 }

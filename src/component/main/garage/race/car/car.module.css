@@ -1,3 +1,7 @@
+:root {
+  caret-color: red;
+}
+
 .wrapper {
   height: 100px;
   margin-right: 10px;

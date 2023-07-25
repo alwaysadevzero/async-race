@@ -1,14 +1,19 @@
 import styles from "./winner-table.module.css"
 import BaseComponent from "../../../../utils/baseComponent"
 import garageEventEmmiter from "../../../../services/garage-eventEmmiter"
+import winnerEventEmmiter from "../../../../services/winners-eventEmmiter"
 
-// Интерфейс для данных автомобиля, допущение на основе предоставленной информации
-interface CarData {
+import machineSvg from "../../../../assets/machine.svg"
+console.log(machineSvg)
+
+interface Winner {
   color: string
   name: string
   wins: number
   time: number
 }
+
+const HEADERS = ["Number", "Car", "Name", "Wins", "Time"]
 
 export default class WinnerComponent extends BaseComponent<"table"> {
   private thead: BaseComponent<"thead">
@@ -21,20 +26,18 @@ export default class WinnerComponent extends BaseComponent<"table"> {
   }
 
   private initListeners = () => {
-    const winsHeader = this.thead.node.querySelector("#wins")
-    const timeHeader = this.thead.node.querySelector("#time")
+    winnerEventEmmiter.on(winnerEventEmmiter.events.DRAW_CARS, this.updateTable)
+    this.thead.node.addEventListener("click", (event) => {
+      const target = event.target as HTMLElement
 
-    if (winsHeader) {
-      winsHeader.addEventListener("click", () => {
+      if (target.innerText === "Wins") {
         garageEventEmmiter.emit(garageEventEmmiter.events.SORT_WIN)
-      })
-    }
+      }
 
-    if (timeHeader) {
-      timeHeader.addEventListener("click", () => {
+      if (target.innerText === "Time") {
         garageEventEmmiter.emit(garageEventEmmiter.events.SORT_TIME)
-      })
-    }
+      }
+    })
   }
 
   private initComponent = () => {
@@ -42,7 +45,6 @@ export default class WinnerComponent extends BaseComponent<"table"> {
       tag: "thead",
       parent: this.node,
     })
-
     this.tbody = new BaseComponent<"tbody">({
       tag: "tbody",
       parent: this.node,
@@ -53,30 +55,19 @@ export default class WinnerComponent extends BaseComponent<"table"> {
       parent: this.thead.node,
     })
 
-    const headers = ["Number", "Car", "Name", "Wins", "Best time (seconds)"]
-    headers.forEach((header) => {
-      const th = new BaseComponent<"th">({
+    HEADERS.forEach((header) => {
+      new BaseComponent<"th">({
         tag: "th",
         content: header,
         parent: headerRow.node,
       })
-
-      if (header === "Wins") {
-        th.node.classList.add(styles.columWins)
-        th.node.id = "wins"
-      }
-
-      if (header === "Best time (seconds)") {
-        th.node.classList.add(styles.recordColumn)
-        th.node.id = "time"
-      }
     })
   }
 
-  public updateTable = (data: CarData[]) => {
-    this.tbody.node.innerHTML = "" // очищаем tbody
+  public updateTable = (data: Winner[]) => {
+    this.tbody.node.innerHTML = ""
 
-    data.forEach((car, index) => {
+    data.forEach((winner, index) => {
       const tr = new BaseComponent<"tr">({
         tag: "tr",
         parent: this.tbody.node,
@@ -91,48 +82,34 @@ export default class WinnerComponent extends BaseComponent<"table"> {
       const tdCar = new BaseComponent<"td">({
         tag: "td",
         parent: tr.node,
+        className: styles.tdCar,
       })
-
-      const carDiv = new BaseComponent<"div">({
-        tag: "div",
-        className: styles.carWin,
-        parent: tdCar.node,
-      })
-
-      const carSvg = document.createElementNS(
-        "http://www.w3.org/2000/svg",
-        "svg"
-      )
-      carSvg.setAttribute("class", styles.car)
-      carSvg.setAttribute("style", `fill: ${car.color}`)
-      carSvg.setAttribute("width", "70")
-      carDiv.node.appendChild(carSvg)
-
-      const carUse = document.createElementNS(
-        "http://www.w3.org/2000/svg",
-        "use"
-      )
-      carUse.setAttribute("href", "#car")
-      carUse.setAttribute("width", "50")
-      carUse.setAttribute("height", "30")
-      carSvg.appendChild(carUse)
 
       new BaseComponent<"td">({
         tag: "td",
-        content: car.name,
+        content: winner.name,
         parent: tr.node,
       })
 
+      const machineIMG = new BaseComponent({
+        tag: "div",
+        parent: tdCar.node,
+        className: styles.machineIMG,
+        // attributes: { src: machineSvg },
+      })
+      console.log(winner.color)
+      machineIMG.node.style.setProperty("--car-color", winner.color)
+
       new BaseComponent<"td">({
         tag: "td",
-        content: car.wins.toString(),
+        content: winner.wins.toString(),
         className: styles.columWins,
         parent: tr.node,
       })
 
       new BaseComponent<"td">({
         tag: "td",
-        content: car.time.toString(),
+        content: winner.time.toString(),
         parent: tr.node,
       })
     })
