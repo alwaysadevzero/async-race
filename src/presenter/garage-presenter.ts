@@ -44,6 +44,7 @@ export default class GaragePresenter {
   private async generateCars() {
     const isGenerated: boolean = await this.garageModel.generateCars()
     console.log(isGenerated)
+    if (isGenerated) this.updateCars()
   }
 
   private async deleteCar(id: number) {
