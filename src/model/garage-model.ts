@@ -12,6 +12,7 @@ const state: GarageState = {
   generateLength: 100,
   activeCarsId: [],
   raceStatus: Race.STOP,
+  winnerCarId: null,
 }
 
 export default class GarageModel {
@@ -24,19 +25,42 @@ export default class GarageModel {
   }
 
   public startRace = (): false | true => {
-    if (this.state.raceStatus === Race.STOP) {
+    if (
+      this.state.raceStatus === Race.STOP &&
+      this.state.activeCarsId.length === 0
+    ) {
       this.state.raceStatus = Race.START
+      this.state.winnerCarId = null
       return true
     }
     return false
   }
 
   public stopRace = (): false | true => {
-    if (this.state.raceStatus === Race.START) {
+    console.log(this.state.activeCarsId.length)
+    if (
+      this.state.raceStatus === Race.START &&
+      this.state.activeCarsId.length > 1
+    ) {
       this.state.raceStatus = Race.STOP
       return true
     }
     return false
+  }
+
+  public finishCar = (carId: number): number | undefined => {
+    if (
+      this.state.activeCarsId.includes(carId) &&
+      !this.state.winnerCarId &&
+      this.state.raceStatus === Race.START
+    ) {
+      this.state.winnerCarId = carId
+      this.state.activeCarsId = this.state.activeCarsId.filter(
+        (car) => car !== carId
+      )
+      return carId
+    }
+    return undefined
   }
 
   public nextPage = (): false | true => {
@@ -80,6 +104,10 @@ export default class GarageModel {
   public async driveCar(carId: number): Promise<boolean> {
     if (!this.state.activeCarsId.includes(carId)) return false
     const status = await this.api.driveEngine(carId)
+    if (!status)
+      this.state.activeCarsId = this.state.activeCarsId.filter(
+        (car) => car !== carId
+      )
     return status
   }
 

@@ -3,15 +3,19 @@ import BaseComponent from "../../../../utils/baseComponent"
 import CarComponent from "./car/car-component"
 import garageEventEmmiter from "../../../../services/garage-eventEmmiter"
 import { Car } from "../../../../interfaces/car.interface"
+import WinnerComponent from "../modal/winner-modal-component"
 
 export default class RaceComponent extends BaseComponent {
   private carsNumber: number | null
 
   private carsArr: CarComponent[] = []
 
+  private wrapper!: BaseComponent
+
   constructor() {
     super({ className: styles.race })
     this.initListeners()
+    this.initComponent()
   }
 
   private initListeners = () => {
@@ -26,6 +30,12 @@ export default class RaceComponent extends BaseComponent {
     )
   }
 
+  private initComponent = () => {
+    this.wrapper = new BaseComponent({ parent: this.node })
+    const winnerModal = new WinnerComponent()
+    this.append(winnerModal)
+  }
+
   private drawStartRace = () => {
     if (!this.carsArr) return
     this.carsArr.forEach((car) => {
@@ -34,7 +44,6 @@ export default class RaceComponent extends BaseComponent {
   }
 
   private drawStopRace = () => {
-    console.log(24242)
     if (!this.carsArr) return
     this.carsArr.forEach((car) => {
       garageEventEmmiter.emit(garageEventEmmiter.events.STOP_CAR, car.car.id)
@@ -53,7 +62,7 @@ export default class RaceComponent extends BaseComponent {
       carComp.updateCar(car)
       return carComp
     })
-    this.node.innerHTML = ""
-    this.append(...this.carsArr)
+    this.wrapper.node.innerHTML = ""
+    this.wrapper.append(...this.carsArr)
   }
 }

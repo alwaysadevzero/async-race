@@ -51,6 +51,7 @@ export class GarageComponent extends BaseComponent<"article"> {
     creatorWrapper.append(carCreator, carUpdater)
 
     const race = new RaceComponent()
+
     this.append(race.node)
   }
 }

@@ -42,17 +42,28 @@ export default class GaragePresenter {
     garageEventEmmiter.on(garageEventEmmiter.events.START_RACE, this.startRace)
     garageEventEmmiter.on(garageEventEmmiter.events.STOP_RACE, this.stopRace)
     garageEventEmmiter.on(garageEventEmmiter.events.STOP_CAR, this.resetCar)
+    garageEventEmmiter.on(garageEventEmmiter.events.FINISH_CAR, this.finishCar)
+  }
+
+  private finishCar = (params: { car: Car; time: number }) => {
+    const isThisCarWinner = this.garageModel.finishCar(params.car.id)
+    console.log("winner car id ", isThisCarWinner)
+    if (isThisCarWinner)
+      garageEventEmmiter.emit(garageEventEmmiter.events.DRAW_WINNER, params)
   }
 
   private startRace = () => {
+    if (this.garageModel.animationStatus) return
     const isRaceStarted = this.garageModel.startRace()
+    console.log("start car id", isRaceStarted)
     if (!isRaceStarted) return
     garageEventEmmiter.emit(garageEventEmmiter.events.DRAW_RACE)
   }
 
   private stopRace = () => {
-    console.log(767777)
+    if (!this.garageModel.animationStatus) return
     const isRaceStarted = this.garageModel.stopRace()
+    console.log("stop car id ", isRaceStarted)
     if (!isRaceStarted) return
     garageEventEmmiter.emit(garageEventEmmiter.events.DRAW_STOP_RACE)
   }

@@ -22,5 +22,6 @@ export enum Events {
   DRAW_RACE,
   RESET_CAR,
   DRAW_RESET,
-  DRAW_STOP_RACE
+  DRAW_STOP_RACE,
+  DRAW_WINNER
 }

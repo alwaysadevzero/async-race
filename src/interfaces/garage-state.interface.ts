@@ -7,4 +7,5 @@ export interface GarageState {
   generateLength: number
   activeCarsId: number[]
   raceStatus: Race
+  winnerCarId: number | null
 }

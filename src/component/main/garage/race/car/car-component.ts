@@ -58,6 +58,10 @@ export default class CarComponent extends BaseComponent {
         this.animationId = requestAnimationFrame(animate)
       } else {
         this.stopAnimation()
+        garageEventEmmiter.emit(garageEventEmmiter.events.FINISH_CAR, {
+          car: this.car,
+          time: trace.distance * SPEED,
+        })
       }
     }
     this.animationId = requestAnimationFrame(animate)
@@ -67,7 +71,6 @@ export default class CarComponent extends BaseComponent {
     if (!this.animationId) return
     cancelAnimationFrame(this.animationId)
     this.animationId = 0
-    // this.trace.setAttributes({ value: `${0}` })
   }
 
   private initComponent = () => {
