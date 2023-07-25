@@ -38,11 +38,13 @@ export default class WinnerComponent extends BaseComponent {
 
   private disableModal = () => {
     this.modal.removeAttributes("open")
+    document.body.style.overflow = ""
     this.setClass(styles.open, false)
   }
 
   private enableModal = () => {
     this.modal.setAttributes({ open: "" })
+    document.body.style.overflow = "hidden"
     this.setClass(styles.open, true)
   }
 
