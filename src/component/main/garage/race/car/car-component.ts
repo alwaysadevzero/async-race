@@ -2,22 +2,58 @@ import styles from "./car.module.css"
 import BaseComponent from "../../../../../utils/baseComponent"
 import { Car } from "../../../../../interfaces/car.interface"
 import CarControlComponent from "./carControls/car-control-component"
-import machineSVG from "../../../../../assets/machine.svg"
+import garageEventEmmiter from "../../../../../services/garage-eventEmmiter"
+import { Trace } from "../../../../../interfaces/trace.interface"
+
+const SPEED = 10
 
 export default class CarComponent extends BaseComponent {
   private trace: BaseComponent
 
   private carControl!: CarControlComponent
 
-  constructor(private car: Car) {
+  private animationId = 0
+
+  constructor(public car: Car) {
     super({})
     this.car = car
     this.initComponent()
+    this.initListeners()
   }
 
   public updateCar = (car: Car) => {
     this.carControl.setName(car.name)
     this.trace.node.style.setProperty("--car-color", car.color)
+  }
+
+  private initListeners = () => {
+    garageEventEmmiter.on(garageEventEmmiter.events.DRAW_START, this.startCar)
+  }
+
+  private startCar = (params: { carId: number; trace: Trace }) => {
+    if (params.carId !== this.car.id || this.animationId) return
+    this.startAnimation(params.trace)
+  }
+
+  private startAnimation = (trace: Trace) => {
+    this.trace.setAttributes({ max: `${trace.distance}` })
+    let step = 0
+    const animate = () => {
+      this.trace.setAttributes({ value: `${step}` })
+      step += trace.velocity * SPEED
+      if (step <= trace.distance) {
+        this.animationId = requestAnimationFrame(animate)
+      } else {
+        this.stopAnimation()
+      }
+    }
+    this.animationId = requestAnimationFrame(animate)
+  }
+
+  private stopAnimation = () => {
+    cancelAnimationFrame(this.animationId)
+    this.animationId = 0
+    this.trace.setAttributes({ value: `${0}` })
   }
 
   private initComponent = () => {
@@ -31,7 +67,7 @@ export default class CarComponent extends BaseComponent {
       tag: "input",
       className: styles.trace,
       parent: wrapper.node,
-      attributes: { type: "range", value: "0", max: "1" },
+      attributes: { type: "range", value: "0", max: "20000" },
     })
   }
 }
