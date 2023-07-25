@@ -2,18 +2,20 @@ import RaceApi from "../services/race-api"
 import { Car } from "../interfaces/car.interface"
 import { GarageState } from "../interfaces/garage-state.interface"
 import generateCars from "../utils/createRandomCar"
+import { Trace } from "../interfaces/trace.interface"
 
-const STATE: GarageState = {
+const state: GarageState = {
   currentPage: 1,
   pageLength: null,
   carsLength: 7,
   generateLength: 100,
+  activeCarsId: [],
 }
 
 export default class GarageModel {
   private api = new RaceApi()
 
-  private state = STATE
+  private state = state
 
   public nextPage = (): false | true => {
     if (!this.state?.pageLength) return false
@@ -31,6 +33,18 @@ export default class GarageModel {
       return true
     }
     return false
+  }
+
+  public async startCar(carId: number): Promise<Trace | undefined> {
+    if (this.state.activeCarsId.includes(carId)) return undefined
+
+    console.log(carId, this.state.activeCarsId)
+    const response = await this.api.startEngine(carId)
+    if (response) {
+      await this.state.activeCarsId.push(carId)
+      return response
+    }
+    return undefined
   }
 
   public async generateCars(): Promise<boolean> {
@@ -83,6 +97,8 @@ export default class GarageModel {
         this.state.pageLength = Math.ceil(
           +response.totalCount / this.state.carsLength
         )
+
+        this.state
 
         return response
       }

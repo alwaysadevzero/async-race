@@ -35,21 +35,49 @@ export default class GaragePresenter {
       garageEventEmmiter.events.GENERATE_CARS,
       this.generateCars.bind(this)
     )
+    garageEventEmmiter.on(
+      garageEventEmmiter.events.START_CAR,
+      this.startCar.bind(this)
+    )
+    garageEventEmmiter.on(garageEventEmmiter.events.START_RACE, this.startRace)
+  }
+
+  private startRace = async () => {
+    garageEventEmmiter.emit(garageEventEmmiter.events.DRAW_RACE)
   }
 
   private changeCar = (car: Car) => {
     garageEventEmmiter.emit(garageEventEmmiter.events.DRAW_CHANGE, car)
   }
 
+  private async startCar(carId: number) {
+    console.log(carId)
+    const trace = await this.garageModel.startCar(carId)
+    if (trace)
+      garageEventEmmiter.emit(garageEventEmmiter.events.DRAW_START, {
+        carId,
+        trace,
+      })
+  }
+
   private async generateCars() {
     const isGenerated: boolean = await this.garageModel.generateCars()
-    console.log(isGenerated)
     if (isGenerated) this.updateCars()
   }
 
   private async deleteCar(id: number) {
-    const isDeleted: boolean = await this.garageModel.deleteCar(id)
-    if (isDeleted) this.updateCars()
+    if (!(await this.garageModel.deleteCar(id))) return
+
+    const data = await this.garageModel.getCars()
+    if (!data || (data.cars.length === 0 && Number(data.totalCount) > 1)) {
+      this.previosPage()
+    } else {
+      garageEventEmmiter.emit(garageEventEmmiter.events.DRAW_CARS, data.cars)
+      garageEventEmmiter.emit(garageEventEmmiter.events.DRAW_PANEL, {
+        total: data.totalCount,
+        page: data.page,
+      })
+    }
   }
 
   private async updateCar(car: Car) {

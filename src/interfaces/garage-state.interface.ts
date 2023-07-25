@@ -3,4 +3,5 @@ export interface GarageState {
   carsLength: number
   pageLength: null | number
   generateLength: number
+  activeCarsId: number[]
 }
