@@ -2,7 +2,6 @@ import styles from "./car-control.module.css"
 import BaseComponent from "../../../../../../utils/baseComponent"
 import garageEventEmmiter from "../../../../../../services/garage-eventEmmiter"
 import { Car } from "../../../../../../interfaces/car.interface"
-import { cli } from "webpack"
 
 export default class CarControlComponent extends BaseComponent {
   private startButton!: BaseComponent
@@ -33,6 +32,12 @@ export default class CarControlComponent extends BaseComponent {
 
     this.removeButtom.addListener("click", () =>
       garageEventEmmiter.emit(garageEventEmmiter.events.DELETE_CAR, this.car.id)
+    )
+    this.startButton.addListener("click", () =>
+      garageEventEmmiter.emit(garageEventEmmiter.events.START_CAR, this.car.id)
+    )
+    this.stopButtom.addListener("click", () =>
+      garageEventEmmiter.emit(garageEventEmmiter.events.STOP_CAR, this.car.id)
     )
   }
 

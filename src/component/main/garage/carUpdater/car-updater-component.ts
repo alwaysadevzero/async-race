@@ -39,6 +39,10 @@ export default class CarUpdaterComponent extends BaseComponent<"article"> {
     this.isEnable = true
     ;(this.color.node as HTMLInputElement).value = car.color
     ;(this.input.node as HTMLInputElement).value = car.name
+
+    this.updateButtom.removeAttributes("disabled")
+    this.color.removeAttributes("disabled")
+    this.input.removeAttributes("disabled")
   }
 
   private changeCar = () => {
@@ -49,18 +53,20 @@ export default class CarUpdaterComponent extends BaseComponent<"article"> {
       name: (this.input.node as HTMLInputElement).value,
       color: (this.color.node as HTMLInputElement).value,
     }
-
     garageEventEmmiter.emit(garageEventEmmiter.events.UPDATE_CAR, car)
     this.car = null
+    this.updateButtom.setAttributes({ disabled: "" })
+    this.color.setAttributes({ disabled: "" })
+    this.input.setAttributes({ disabled: "" })
+    ;(this.input.node as HTMLInputElement).value = ""
   }
 
   private initComponent = () => {
     this.input = new BaseComponent<"input">({
       tag: "input",
       parent: this.node,
-      attributes: { maxlength: "20" },
+      attributes: { maxlength: "20", disabled: "" },
     })
-
     const wrapper = new BaseComponent({
       parent: this.node,
       className: styles.wrapper,
@@ -69,13 +75,14 @@ export default class CarUpdaterComponent extends BaseComponent<"article"> {
       tag: "input",
       parent: wrapper.node,
       className: styles.color,
-      attributes: { type: "color" },
+      attributes: { type: "color", disabled: "" },
     })
     this.updateButtom = new BaseComponent<"button">({
       tag: "button",
       content: "update",
       className: styles.button,
       parent: wrapper.node,
+      attributes: { type: "color", disabled: "" },
     })
   }
 }

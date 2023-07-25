@@ -1,9 +1,4 @@
-import EventEmitter from "../utils/eventEmmiter";
+import EventEmitter from "../utils/eventEmmiter"
 
-class GarageEventEmmiter extends EventEmitter {
-    constructor(){
-        super()
-    }
-}
-
-export default new GarageEventEmmiter()
+const GarageEventEmmiter = new EventEmitter()
+export default GarageEventEmmiter
