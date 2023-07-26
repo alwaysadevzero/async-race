@@ -4,7 +4,7 @@ import BaseComponent from "../../../../utils/baseComponent"
 import garageEventEmmiter from "../../../../services/garage-eventEmmiter"
 import throttle from "../../../../utils/throttle"
 
-const DELAY = 3000
+const DELAY = 2000
 
 export default class RaceControlsComponent extends BaseComponent<"article"> {
   private raceButton!: BaseComponent

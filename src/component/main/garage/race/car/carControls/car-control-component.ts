@@ -49,7 +49,7 @@ export default class CarControlComponent extends BaseComponent {
     })
     this.stopButtom = new BaseComponent<"button">({
       tag: "button",
-      content: "stop",
+      content: "reset",
       parent: this.node,
     })
     this.editButtom = new BaseComponent<"button">({

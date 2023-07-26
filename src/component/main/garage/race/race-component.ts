@@ -46,7 +46,7 @@ export default class RaceComponent extends BaseComponent {
   private drawStopRace = () => {
     if (!this.carsArr) return
     this.carsArr.forEach((car) => {
-      garageEventEmmiter.emit(garageEventEmmiter.events.STOP_CAR, car.car.id)
+      garageEventEmmiter.emit(garageEventEmmiter.events.DRAW_RESET, car.car.id)
     })
   }
 
