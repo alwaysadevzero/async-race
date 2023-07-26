@@ -2,6 +2,9 @@ import styles from "./race-controls.module.css"
 
 import BaseComponent from "../../../../utils/baseComponent"
 import garageEventEmmiter from "../../../../services/garage-eventEmmiter"
+import throttle from "../../../../utils/throttle"
+
+const DELAY = 2000
 
 export default class RaceControlsComponent extends BaseComponent<"article"> {
   private raceButton!: BaseComponent
@@ -18,16 +21,29 @@ export default class RaceControlsComponent extends BaseComponent<"article"> {
 
   private initListeners = () => {
     this.generateButton.addListener("click", () => {
-      garageEventEmmiter.emit(garageEventEmmiter.events.GENERATE_CARS)
+      console.log(1234)
+      this.generateCarsThrottled()
     })
     this.raceButton.addListener("click", () => {
-      garageEventEmmiter.emit(garageEventEmmiter.events.START_RACE)
+      this.raceCarsThrottled()
     })
 
     this.resetButton.addListener("click", () => {
-      garageEventEmmiter.emit(garageEventEmmiter.events.STOP_RACE)
+      this.resetCarsThrottled()
     })
   }
+
+  private generateCarsThrottled = throttle(() => {
+    garageEventEmmiter.emit(garageEventEmmiter.events.GENERATE_CARS)
+  }, DELAY)
+
+  private raceCarsThrottled = throttle(() => {
+    garageEventEmmiter.emit(garageEventEmmiter.events.START_RACE)
+  }, DELAY)
+
+  private resetCarsThrottled = throttle(() => {
+    garageEventEmmiter.emit(garageEventEmmiter.events.GENERATE_CARS)
+  }, DELAY)
 
   private initComponent = () => {
     this.raceButton = new BaseComponent<"button">({
