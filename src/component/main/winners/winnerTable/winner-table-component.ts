@@ -4,7 +4,7 @@ import garageEventEmmiter from "../../../../services/garage-eventEmmiter"
 import winnerEventEmmiter from "../../../../services/winners-eventEmmiter"
 
 import machineSvg from "../../../../assets/machine.svg"
-console.log(machineSvg)
+machineSvg
 
 interface Winner {
   color: string
@@ -97,7 +97,6 @@ export default class WinnerComponent extends BaseComponent<"table"> {
         className: styles.machineIMG,
         // attributes: { src: machineSvg },
       })
-      console.log(winner.color)
       machineIMG.node.style.setProperty("--car-color", winner.color)
 
       new BaseComponent<"td">({

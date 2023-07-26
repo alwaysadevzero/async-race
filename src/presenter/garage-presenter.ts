@@ -45,27 +45,27 @@ export default class GaragePresenter {
     garageEventEmmiter.on(garageEventEmmiter.events.FINISH_CAR, this.finishCar)
   }
 
-  private finishCar = (params: { car: Car; time: number }) => {
-    const isThisCarWinner = this.garageModel.finishCar(params.car.id)
-    console.log("winner car id ", isThisCarWinner)
-    if (isThisCarWinner)
-      garageEventEmmiter.emit(garageEventEmmiter.events.DRAW_WINNER, params)
+  private finishCar = async (params: { car: Car; time: number }) => {
+    const isFinishCar = this.garageModel.finishCar(params.car)
+    if (isFinishCar) await this.garageModel.stopCar(params.car.id)
+    const getWinner = this.garageModel.getWinner
+    // const getWinner = this.garageModel.getWinner()
+    if (!getWinner) return
+    garageEventEmmiter.emit(garageEventEmmiter.events.DRAW_WINNER, {
+      car: getWinner,
+      time: params.time,
+    })
+    this.stopRace()
   }
 
   private startRace = () => {
-    console.log("animation", this.garageModel.animationStatus)
-    if (this.garageModel.animationStatus) return
     const isRaceStarted = this.garageModel.startRace()
-    console.log("start car id", isRaceStarted)
     if (!isRaceStarted) return
     garageEventEmmiter.emit(garageEventEmmiter.events.DRAW_RACE)
   }
 
   private stopRace = () => {
-    console.log("animation", this.garageModel.animationStatus)
-    if (!this.garageModel.animationStatus) return
     const isRaceStarted = this.garageModel.stopRace()
-    console.log("stop car id ", isRaceStarted)
     if (!isRaceStarted) return
     garageEventEmmiter.emit(garageEventEmmiter.events.DRAW_STOP_RACE)
   }
@@ -88,8 +88,8 @@ export default class GaragePresenter {
   }
 
   private resetCar = async (carId: number) => {
-    const isCarStopped = await this.garageModel.stopCar(carId)
     garageEventEmmiter.emit(garageEventEmmiter.events.DRAW_RESET, carId)
+    const isCarStopped = await this.garageModel.stopCar(carId)
   }
 
   private async generateCars() {

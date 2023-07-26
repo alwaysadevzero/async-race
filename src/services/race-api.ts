@@ -30,7 +30,7 @@ export default class RaceApi {
     return response.json()
   }
 
-  public async createCar(name: string, color: string): Promise<number> {
+  public async createCar(name: string, color: string): Promise<HttpStatusCode> {
     const response = await this.fetchApi(`${BASE_URL}/garage`, {
       method: "POST",
       headers: {
@@ -38,7 +38,7 @@ export default class RaceApi {
       },
       body: JSON.stringify({ name, color }),
     })
-    return response.json()
+    return response.status
   }
 
   public async deleteCar(id: number): Promise<HttpStatusCode> {

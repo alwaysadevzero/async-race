@@ -31,7 +31,7 @@ export default class WinnerComponent extends BaseComponent {
   }
 
   private drawWinner = (params: { car: Car; time: number }) => {
-    console.log(params)
+    params
     this.carNameWinner.setContent(params.car.name)
     this.enableModal()
   }

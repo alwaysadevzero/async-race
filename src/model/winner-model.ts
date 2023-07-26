@@ -54,7 +54,6 @@ export default class WinnerModel {
         )
       if (!response || !response.winners)
         throw new Error("Failed to get winners")
-      console.log(response)
       this.state.totalCars = response.totalCount
       this.state.totalPages = Math.ceil(
         response.totalCount / this.state.carsPerPage

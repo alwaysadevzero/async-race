@@ -13,7 +13,7 @@ const state: GarageState = {
   generateLength: 100,
   activeCarsId: [],
   raceStatus: Race.STOP,
-  winnerCarId: null,
+  winnerCar: null,
 }
 
 export default class GarageModel {
@@ -22,49 +22,44 @@ export default class GarageModel {
   private state = state
 
   public get animationStatus(): boolean {
-    console.log("active car", this.state.activeCarsId.length)
     return this.state.activeCarsId.length > 0
   }
 
-  public startRace = (): false | true => {
-    if (
-      this.state.raceStatus === Race.STOP &&
-      this.state.activeCarsId.length === 0
-    ) {
-      console.log("START RACE")
+  public get getWinner(): Car | null {
+    return this.state.winnerCar
+  }
+
+  public startRace = (): boolean => {
+    if (this.state.raceStatus === Race.STOP) {
       this.state.raceStatus = Race.START
-      this.state.winnerCarId = null
+      this.state.winnerCar = null
       return true
     }
     return false
   }
 
-  public stopRace = (): false | true => {
-    console.log(this.state.activeCarsId.length)
-    if (
-      this.state.raceStatus === Race.START &&
-      this.state.activeCarsId.length > 1
-    ) {
-      console.log("STOP RACE")
+  public stopRace = (): boolean => {
+    console.log("race status", this.state.raceStatus)
+    console.log("cars status", this.state.activeCarsId)
+    if (this.state.raceStatus === Race.START) {
       this.state.raceStatus = Race.STOP
       return true
     }
     return false
   }
 
-  public finishCar = (carId: number): number | undefined => {
+  public finishCar = (car: Car): boolean => {
     if (
-      this.state.activeCarsId.includes(carId) &&
-      !this.state.winnerCarId &&
+      this.state.activeCarsId.includes(car.id) &&
       this.state.raceStatus === Race.START
     ) {
-      this.state.winnerCarId = carId
       this.state.activeCarsId = this.state.activeCarsId.filter(
-        (car) => car !== carId
+        (c) => c !== car.id
       )
-      return carId
+      if (!this.state.winnerCar) this.state.winnerCar = car
+      return true
     }
-    return undefined
+    return false
   }
 
   public nextPage = (): false | true => {
@@ -86,8 +81,10 @@ export default class GarageModel {
   }
 
   public async startCar(carId: number): Promise<Trace | undefined> {
+    console.log(carId)
+    console.log(this.state.activeCarsId)
     if (this.state.activeCarsId.includes(carId)) return undefined
-
+    console.log(true)
     const response = await this.api.startEngine(carId)
     if (response) {
       this.state.activeCarsId.push(carId)
@@ -97,6 +94,8 @@ export default class GarageModel {
   }
 
   public async stopCar(carId: number): Promise<boolean> {
+    console.log(carId)
+    console.log(this.state.activeCarsId)
     if (!this.state.activeCarsId.includes(carId)) return false
     this.state.activeCarsId = this.state.activeCarsId.filter(
       (car) => car !== car
@@ -125,8 +124,11 @@ export default class GarageModel {
         return this.api.createCar(car.name, car.color)
       })
 
-      const statuses = await Promise.all(creationPromises)
-      if (statuses.every((status) => status === 201)) return true
+      const responseStatus = await Promise.all(creationPromises)
+      if (
+        responseStatus.every((status) => status === HttpStatusCode.CREATED_201)
+      )
+        return true
     } catch (error) {
       console.error("Error generating cars:", error)
     }
@@ -141,17 +143,15 @@ export default class GarageModel {
 
   public async deleteCar(id: number): Promise<boolean> {
     const status = await this.api.deleteCar(id)
-    if (status) return true
-    return false
+    return status === HttpStatusCode.OK_200
   }
 
   public async createCar(params: {
     carName: string
     carColor: string
   }): Promise<boolean> {
-    const status = await this.api.createCar(params.carName, params.carColor)
-    if (status === 201) return true
-    return false
+    const result = await this.api.createCar(params.carName, params.carColor)
+    return result === HttpStatusCode.CREATED_201
   }
 
   public async getCars(): Promise<

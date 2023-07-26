@@ -1,4 +1,5 @@
 import { Race } from "../enums/enum-race-status"
+import { Car } from "./car.interface"
 
 export interface GarageState {
   currentPage: number
@@ -7,5 +8,5 @@ export interface GarageState {
   generateLength: number
   activeCarsId: number[]
   raceStatus: Race
-  winnerCarId: number | null
+  winnerCar: Car | null
 }
