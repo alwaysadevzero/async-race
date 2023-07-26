@@ -4,7 +4,7 @@ import BaseComponent from "../../../../utils/baseComponent"
 import garageEventEmmiter from "../../../../services/garage-eventEmmiter"
 import throttle from "../../../../utils/throttle"
 
-const DELAY = 2000
+const DELAY = 3000
 
 export default class RaceControlsComponent extends BaseComponent<"article"> {
   private raceButton!: BaseComponent
@@ -21,7 +21,6 @@ export default class RaceControlsComponent extends BaseComponent<"article"> {
 
   private initListeners = () => {
     this.generateButton.addListener("click", () => {
-      console.log(1234)
       this.generateCarsThrottled()
     })
     this.raceButton.addListener("click", () => {
@@ -42,7 +41,7 @@ export default class RaceControlsComponent extends BaseComponent<"article"> {
   }, DELAY)
 
   private resetCarsThrottled = throttle(() => {
-    garageEventEmmiter.emit(garageEventEmmiter.events.GENERATE_CARS)
+    garageEventEmmiter.emit(garageEventEmmiter.events.STOP_RACE)
   }, DELAY)
 
   private initComponent = () => {
