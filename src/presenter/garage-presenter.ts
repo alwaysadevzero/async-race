@@ -53,6 +53,7 @@ export default class GaragePresenter {
   }
 
   private startRace = () => {
+    console.log("animation", this.garageModel.animationStatus)
     if (this.garageModel.animationStatus) return
     const isRaceStarted = this.garageModel.startRace()
     console.log("start car id", isRaceStarted)
@@ -61,6 +62,7 @@ export default class GaragePresenter {
   }
 
   private stopRace = () => {
+    console.log("animation", this.garageModel.animationStatus)
     if (!this.garageModel.animationStatus) return
     const isRaceStarted = this.garageModel.stopRace()
     console.log("stop car id ", isRaceStarted)

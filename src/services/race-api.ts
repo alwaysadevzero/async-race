@@ -3,130 +3,90 @@ import { EngineStatus } from "../enums/enum-engine-status"
 import { Trace } from "../interfaces/trace.interface"
 import Winner from "../interfaces/winner.interface"
 import GetWinners from "../interfaces/get-winners.interface"
+import HttpStatusCode from "../enums/http-status-code"
 
 const BASE_URL = "http://127.0.0.1:3000"
 
 export default class RaceApi {
-  public async getCars(page: number, limit: number) {
-    const response = await fetch(
+  private async fetchApi(url: string, options?: RequestInit) {
+    const response = await fetch(url, options)
+    return response
+  }
+
+  public async getCars(
+    page: number,
+    limit: number
+  ): Promise<{ cars: Car[]; totalCount: string | null; page: number }> {
+    const response = await this.fetchApi(
       `${BASE_URL}/garage?_page=${page || ""}&_limit=${limit || ""}`
     )
-    const cars: Car[] = await response.json()
     const totalCount = response.headers.get("X-Total-Count")
+    const cars = await response.json()
     return { cars, totalCount, page }
   }
 
-  public async getCar(id: number) {
-    const response = await fetch(`${BASE_URL}/garage/${id}`)
-    if (response.status === 404) throw new Error("Car not found")
+  public async getCar(id: number): Promise<Car> {
+    const response = await this.fetchApi(`${BASE_URL}/garage/${id}`)
     return response.json()
   }
 
   public async createCar(name: string, color: string): Promise<number> {
-    const car = {
-      name,
-      color,
-    }
-
-    const response = await fetch(`${BASE_URL}/garage`, {
+    const response = await this.fetchApi(`${BASE_URL}/garage`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(car),
+      body: JSON.stringify({ name, color }),
     })
-    return response.status
+    return response.json()
   }
 
-  public async deleteCar(id: number): Promise<number> {
-    const response = await fetch(`${BASE_URL}/garage/${id}`, {
+  public async deleteCar(id: number): Promise<HttpStatusCode> {
+    const response = await this.fetchApi(`${BASE_URL}/garage/${id}`, {
       method: "DELETE",
     })
-    if (response.status === 404) throw new Error("Car not found")
     return response.status
   }
 
-  public async updateCar(car: Car): Promise<Omit<Car, "id"> | undefined> {
-    const carObj = {
-      name: car.name,
-      color: car.color,
-    }
-    const response = await fetch(`${BASE_URL}/garage/${car.id}`, {
+  public async updateCar(car: Car): Promise<Car> {
+    const response = await this.fetchApi(`${BASE_URL}/garage/${car.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(carObj),
+      body: JSON.stringify({ name: car.name, color: car.color }),
     })
-    try {
-      if (response.status === 404) {
-        throw new Error("Car not found")
-      }
-    } catch {
-      return undefined
-    }
-
-    const updatedCar = await response.json()
-    if (!updatedCar) {
-      return undefined
-    }
-
-    return updatedCar
+    return response.json()
   }
 
-  public async startEngine(id: number): Promise<Trace | undefined> {
-    const response = await fetch(
+  public async startEngine(id: number): Promise<Trace> {
+    const response = await this.fetchApi(
       `${BASE_URL}/engine?id=${id}&status=${EngineStatus.START}`,
       {
         method: "PATCH",
       }
     )
-    if (response.status === 200) return response.json()
-    try {
-      if (response.status === 404) throw new Error("Car not found")
-      if (response.status === 400)
-        throw new Error("Car with such id was not found in the garage.")
-    } catch {
-      console.warn("Failed start engine")
-    }
-    return undefined
+    return response.json()
   }
 
-  public async stopEngine(id: number): Promise<boolean> {
-    const response = await fetch(
+  public async stopEngine(id: number): Promise<HttpStatusCode> {
+    const response = await this.fetchApi(
       `${BASE_URL}/engine?id=${id}&status=${EngineStatus.STOP}`,
       {
         method: "PATCH",
       }
     )
-    if (response.status === 200) return true
-    try {
-      if (response.status === 404) throw new Error("Car not found")
-      if (response.status === 400)
-        throw new Error("Car with such id was not found in the garage.")
-    } catch {
-      console.warn("Failed stop engine")
-    }
-    return false
+    return response.status
   }
 
-  public async driveEngine(id: number): Promise<boolean> {
-    const response = await fetch(
+  public async driveEngine(id: number): Promise<HttpStatusCode> {
+    const response = await this.fetchApi(
       `${BASE_URL}/engine?id=${id}&status=${EngineStatus.DRIVE}`,
       {
         method: "PATCH",
       }
     )
-    if (response.status === 200) return true
-    if (response.status === 500) return false
-    try {
-      if (response.status === 404) throw new Error("Car not found")
-      if (response.status === 400)
-        throw new Error("Car with such id was not found in the garage.")
-    } catch {
-      console.warn("Failed drive car")
-    }
-    return false
+    return response.status
   }
 
   public async getWinners(
@@ -134,18 +94,11 @@ export default class RaceApi {
     limit: string,
     sort: string,
     order: string
-  ): Promise<Omit<GetWinners, "page"> | undefined> {
-    const queryParams = new URLSearchParams({
-      page,
-      limit,
-      sort,
-      order,
-    })
-    const response = await fetch(`${BASE_URL}/winners?${queryParams}`)
-    if (!(response.status === 200)) return
+  ): Promise<{ winners: Winner[]; totalCount: number }> {
+    const queryParams = new URLSearchParams({ page, limit, sort, order })
+    const response = await this.fetchApi(`${BASE_URL}/winners?${queryParams}`)
     const winners = await response.json()
-    const totalCount = winners.length
-    return { winners, totalCount }
+    return { winners, totalCount: winners.length }
   }
 
   public async getWinner(id: number) {
@@ -154,8 +107,8 @@ export default class RaceApi {
     return response.json()
   }
 
-  public async createWinner(winner: number) {
-    const response = await fetch(`${BASE_URL}/winners`, {
+  public async createWinner(winner: Winner): Promise<Winner> {
+    const response = await this.fetchApi(`${BASE_URL}/winners`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -165,23 +118,21 @@ export default class RaceApi {
     return response.json()
   }
 
-  public async deleteWinner(id: number) {
-    const response = await fetch(`${BASE_URL}/winners/${id}`, {
+  public async deleteWinner(id: number): Promise<HttpStatusCode> {
+    const response = await this.fetchApi(`${BASE_URL}/winners/${id}`, {
       method: "DELETE",
     })
-    if (response.status === 404) throw new Error("Winner not found")
-    return response.json()
+    return response.status
   }
 
-  public async updateWinner(id: number, winner: number) {
-    const response = await fetch(`${BASE_URL}/winners/${id}`, {
+  public async updateWinner(winner: Winner): Promise<Winner> {
+    const response = await this.fetchApi(`${BASE_URL}/winners/${winner.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(winner),
     })
-    if (response.status === 404) throw new Error("Winner not found")
     return response.json()
   }
 }

@@ -4,6 +4,7 @@ import { GarageState } from "../interfaces/garage-state.interface"
 import generateCars from "../utils/createRandomCar"
 import { Trace } from "../interfaces/trace.interface"
 import { Race } from "../enums/enum-race-status"
+import HttpStatusCode from "../enums/http-status-code"
 
 const state: GarageState = {
   currentPage: 1,
@@ -21,6 +22,7 @@ export default class GarageModel {
   private state = state
 
   public get animationStatus(): boolean {
+    console.log("active car", this.state.activeCarsId.length)
     return this.state.activeCarsId.length > 0
   }
 
@@ -29,6 +31,7 @@ export default class GarageModel {
       this.state.raceStatus === Race.STOP &&
       this.state.activeCarsId.length === 0
     ) {
+      console.log("START RACE")
       this.state.raceStatus = Race.START
       this.state.winnerCarId = null
       return true
@@ -42,6 +45,7 @@ export default class GarageModel {
       this.state.raceStatus === Race.START &&
       this.state.activeCarsId.length > 1
     ) {
+      console.log("STOP RACE")
       this.state.raceStatus = Race.STOP
       return true
     }
@@ -97,18 +101,21 @@ export default class GarageModel {
     this.state.activeCarsId = this.state.activeCarsId.filter(
       (car) => car !== car
     )
-    const status = await this.api.stopEngine(carId)
-    return status
+    const status: HttpStatusCode = await this.api.stopEngine(carId)
+    if (status === HttpStatusCode.OK_200) return true
+    return false
   }
 
   public async driveCar(carId: number): Promise<boolean> {
     if (!this.state.activeCarsId.includes(carId)) return false
+
     const status = await this.api.driveEngine(carId)
-    if (!status)
-      this.state.activeCarsId = this.state.activeCarsId.filter(
-        (car) => car !== carId
-      )
-    return status
+    if (status === HttpStatusCode.OK_200) return true
+
+    this.state.activeCarsId = this.state.activeCarsId.filter(
+      (car) => car !== carId
+    )
+    return false
   }
 
   public async generateCars(): Promise<boolean> {
