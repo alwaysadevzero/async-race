@@ -18,6 +18,21 @@ export default class WinnerPresenter {
       presenterEventEmmiter.events.DELETE_CAR,
       this.deleteWinner
     )
+    winnerEventEmmiter.on(winnerEventEmmiter.events.NEXT_PAGE, this.nextPage)
+    winnerEventEmmiter.on(
+      winnerEventEmmiter.events.PREVIOUS_PAGE,
+      this.previosPage
+    )
+  }
+
+  private nextPage = async () => {
+    const isNext: boolean = this.winnerModel.nextPage()
+    if (isNext) this.getWinners()
+  }
+
+  private previosPage = async () => {
+    const isPrevious: boolean = this.winnerModel.previousPage()
+    if (isPrevious) this.getWinners()
   }
 
   private deleteWinner = async (winnerId: number) => {

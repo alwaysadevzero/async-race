@@ -93,11 +93,16 @@ export default class RaceApi {
     limit: string,
     sort: string,
     order: string
-  ): Promise<{ winners: Winner[]; totalCount: number }> {
-    const queryParams = new URLSearchParams({ page, limit, sort, order })
-    const response = await this.fetchApi(`${BASE_URL}/winners?${queryParams}`)
+  ): Promise<{ winners: Winner[]; totalCount: string | null }> {
+    const response = await this.fetchApi(
+      `${BASE_URL}/winners?_page=${page || ""}&_limit=${limit || ""}&_sort=${
+        sort || ""
+      }&_order=${order || ""}`
+    )
     const winners = await response.json()
-    return { winners, totalCount: winners.length }
+    const totalCount = response.headers.get("X-Total-Count")
+
+    return { winners, totalCount }
   }
 
   public async getWinner(id: number): Promise<any> {

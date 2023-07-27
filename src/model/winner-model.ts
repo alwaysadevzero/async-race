@@ -81,20 +81,19 @@ export default class WinnerModel {
 
   public getWinners = async (): Promise<GetWinners | undefined> => {
     try {
-      const response: Omit<GetWinners, "page"> | undefined =
-        await this.api.getWinners(
-          this.state.currentPage.toString(),
-          this.state.carsPerPage.toString(),
-          this.state.sortMethod,
-          this.state.sortOrder
-        )
-      if (!response || !response.winners)
-        throw new Error("Failed to get winners")
-      this.state.totalCars = response.totalCount
-      this.state.totalPages = Math.ceil(
-        response.totalCount / this.state.carsPerPage
+      const response = await this.api.getWinners(
+        this.state.currentPage.toString(),
+        this.state.carsPerPage.toString(),
+        this.state.sortMethod,
+        this.state.sortOrder
       )
+      if (!response || !response.winners || !response.totalCount)
+        throw new Error("Failed to get winners")
 
+      this.state.totalCars = +response.totalCount
+      this.state.totalPages = Math.ceil(
+        +response.totalCount / this.state.carsPerPage
+      )
       const carsPromises = response.winners.map((winner) =>
         this.api.getCar(+winner.id)
       )
@@ -105,11 +104,10 @@ export default class WinnerModel {
           ...cars[index],
         })
       )
-
       return {
         winners,
-        totalCount: response.totalCount,
-        page: this.state.totalPages,
+        totalCount: this.state.totalCars,
+        page: this.state.currentPage,
       }
     } catch (error) {
       console.error("Error fetching winners:", error)
