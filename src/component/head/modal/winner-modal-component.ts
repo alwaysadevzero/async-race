@@ -1,9 +1,9 @@
 import styles from "./winner-modal.module.css"
-import BaseComponent from "../../../../utils/baseComponent"
-import GarageEventEmmiter from "../../../../services/garage-eventEmmiter"
-import { Car } from "../../../../interfaces/car.interface"
+import BaseComponent from "../../../utils/baseComponent"
+import GarageEventEmmiter from "../../../services/garage-eventEmmiter"
+import { Car } from "../../../interfaces/car.interface"
 
-export default class WinnerComponent extends BaseComponent {
+export default class WinnerModalComponent extends BaseComponent {
   private modal!: BaseComponent
 
   private modelContent!: BaseComponent
@@ -37,11 +37,13 @@ export default class WinnerComponent extends BaseComponent {
   }
 
   private disableModal = () => {
+    document.body.style.overflow = ""
     this.modal.removeAttributes("open")
     this.setClass(styles.open, false)
   }
 
   private enableModal = () => {
+    document.body.style.overflow = "hidden"
     this.modal.setAttributes({ open: "" })
     this.setClass(styles.open, true)
   }

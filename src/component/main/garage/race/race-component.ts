@@ -3,7 +3,6 @@ import BaseComponent from "../../../../utils/baseComponent"
 import CarComponent from "./car/car-component"
 import garageEventEmmiter from "../../../../services/garage-eventEmmiter"
 import { Car } from "../../../../interfaces/car.interface"
-import WinnerComponent from "../modal/winner-modal-component"
 
 export default class RaceComponent extends BaseComponent {
   private carsNumber: number | null
@@ -32,8 +31,6 @@ export default class RaceComponent extends BaseComponent {
 
   private initComponent = () => {
     this.wrapper = new BaseComponent({ parent: this.node })
-    const winnerModal = new WinnerComponent()
-    this.append(winnerModal)
   }
 
   private drawStartRace = () => {

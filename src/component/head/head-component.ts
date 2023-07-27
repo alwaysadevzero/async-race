@@ -1,11 +1,11 @@
 import BaseComponent from "../../utils/baseComponent"
 import { Pages } from "../../enums/enum-pages"
 import styles from "./head.module.css"
+import WinnerModalComponent from "./modal/winner-modal-component"
 
 export class HeadComponent extends BaseComponent<"header"> {
   constructor() {
     super({ tag: "header", className: `${styles.container}` })
-    // this.setClass(styles.container)
     this.initComponent()
   }
 
@@ -36,5 +36,8 @@ export class HeadComponent extends BaseComponent<"header"> {
       content: Pages.WINERS,
       attributes: { role: "button", href: `#${Pages.WINERS}` },
     })
+
+    const modal = new WinnerModalComponent()
+    this.append(modal)
   }
 }
