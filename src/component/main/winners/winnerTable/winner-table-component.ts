@@ -41,19 +41,6 @@ export default class WinnerComponent extends BaseComponent<"table"> {
           break
       }
       winnerEventEmmiter.emit(winnerEventEmmiter.events.SORT, sort)
-      // if (target.innerText === "Wins") {
-      //   winnerEventEmmiter.emit(
-      //     winnerEventEmmiter.events.SORT_WIN,
-      //     sortMethod.WIN
-      //   )
-      // }
-
-      // if (target.innerText === "Time") {
-      //   winnerEventEmmiter.emit(
-      //     winnerEventEmmiter.events.SORT_TIME,
-      //     sortMethod.TIME
-      //   )
-      // }
     })
   }
 
@@ -84,7 +71,7 @@ export default class WinnerComponent extends BaseComponent<"table"> {
   public updateTable = (data: Winner[]) => {
     this.tbody.node.innerHTML = ""
 
-    data.forEach((winner, index) => {
+    const table = data.forEach((winner, index) => {
       const tr = new BaseComponent<"tr">({
         tag: "tr",
         parent: this.tbody.node,
@@ -112,7 +99,6 @@ export default class WinnerComponent extends BaseComponent<"table"> {
         tag: "div",
         parent: tdCar.node,
         className: styles.machineIMG,
-        // attributes: { src: machineSvg },
       })
       machineIMG.node.style.setProperty("--car-color", winner.color)
 

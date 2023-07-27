@@ -5,6 +5,19 @@
 .wrapper {
   height: 100px;
   margin-right: 10px;
+  border-bottom: 20px solid hsl(205deg 45.96% 79.26% / 30%);
+  position: relative;
+  z-index: 1;
+}
+
+.wrapper:after {
+  content: "";
+  position: absolute;
+  right: 0;
+  width: 180px;
+  bottom: -20px;
+    height: 20px;
+  background: url("../../../../../assets/win-flag.png") repeat-x;
 }
 
 .trace {

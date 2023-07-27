@@ -15,7 +15,6 @@
   mask-repeat: no-repeat;
   mask-position: center;
   appearance: none;
-  width: 200px;
   height: 100px;
   display: block;
   background-color: var(--car-color);

@@ -25,6 +25,11 @@
   }
 }
 
+.wrapper {
+  align-items: center;
+  justify-content: center;
+}
+
 .GarageComponent {
   display: flex;
   flex-direction: column;

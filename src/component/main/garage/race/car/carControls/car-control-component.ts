@@ -45,21 +45,25 @@ export default class CarControlComponent extends BaseComponent {
     this.startButton = new BaseComponent<"button">({
       tag: "button",
       content: "start",
+      className: styles.button,
       parent: this.node,
     })
     this.stopButtom = new BaseComponent<"button">({
       tag: "button",
       content: "reset",
+      className: styles.button,
       parent: this.node,
     })
     this.editButtom = new BaseComponent<"button">({
       tag: "button",
       content: "edit",
+      className: styles.button,
       parent: this.node,
     })
     this.removeButtom = new BaseComponent<"button">({
       tag: "button",
       content: "remove",
+      className: styles.button,
       parent: this.node,
     })
 
