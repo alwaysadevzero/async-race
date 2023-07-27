@@ -89,9 +89,9 @@ export default class GaragePresenter {
   private deleteCar = async (id: number) => {
     if (this.garageModel.animationStatus) return
     if (!(await this.garageModel.deleteCar(id))) return
+    presenterEventEmmiter.emit(presenterEventEmmiter.events.DELETE_CAR, id)
 
     const data = await this.garageModel.getCars()
-    presenterEventEmmiter.emit(presenterEventEmmiter.events.DELETE_CAR, id)
     if (!data || (data.cars.length === 0 && Number(data.totalCount) > 1)) {
       this.previosPage()
     } else {

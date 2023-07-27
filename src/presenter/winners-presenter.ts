@@ -37,7 +37,20 @@ export default class WinnerPresenter {
 
   private deleteWinner = async (winnerId: number) => {
     const Isdeleted: boolean = await this.winnerModel.deleteWinner(winnerId)
-    if (Isdeleted) this.getWinners()
+    if (!Isdeleted) return
+    const winners = await this.winnerModel.getWinners()
+    if (!winners || (winners.winners.length === 0 && winners.totalCount > 1)) {
+      this.previosPage()
+    } else {
+      winnerEventEmmiter.emit(
+        winnerEventEmmiter.events.DRAW_CARS,
+        winners.winners
+      )
+      winnerEventEmmiter.emit(winnerEventEmmiter.events.DRAW_PANEL, {
+        total: winners.totalCount,
+        page: winners.page,
+      })
+    }
   }
 
   private updateWinner = async (params: {
