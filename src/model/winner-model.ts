@@ -3,9 +3,10 @@ import Winner from "../interfaces/winner.interface"
 import { Car } from "../interfaces/car.interface"
 import GetWinners from "../interfaces/get-winners.interface"
 import HttpStatusCode from "../enums/http-status-code"
+import { sortMethod } from "../enums/enum-sort-method"
 
 interface WinnerState {
-  sortMethod: "id" | "wins" | "time"
+  sortMethod: "wins" | "time"
   sortOrder: "ASC" | "DESC"
   currentPage: number
   carsPerPage: number
@@ -14,7 +15,7 @@ interface WinnerState {
 }
 
 const state: WinnerState = {
-  sortMethod: "id",
+  sortMethod: "wins",
   sortOrder: "ASC",
   currentPage: 1,
   carsPerPage: 10,
@@ -26,6 +27,13 @@ export default class WinnerModel {
   private api = new RaceApi()
 
   private state = state
+
+  public changeTypeSortWinner = (sortMethod: sortMethod) => {
+    this.state.sortMethod = sortMethod
+
+    this.state.sortOrder = this.state.sortOrder === "ASC" ? "DESC" : "ASC"
+    console.log(sortMethod, this.state.sortOrder)
+  }
 
   public nextPage = (): false | true => {
     if (!this.state?.totalPages) return false

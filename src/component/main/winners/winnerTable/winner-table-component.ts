@@ -4,6 +4,7 @@ import garageEventEmmiter from "../../../../services/garage-eventEmmiter"
 import winnerEventEmmiter from "../../../../services/winners-eventEmmiter"
 
 import machineSvg from "../../../../assets/machine.svg"
+import { sortMethod } from "../../../../enums/enum-sort-method"
 machineSvg
 
 interface Winner {
@@ -30,13 +31,29 @@ export default class WinnerComponent extends BaseComponent<"table"> {
     this.thead.node.addEventListener("click", (event) => {
       const target = event.target as HTMLElement
 
-      if (target.innerText === "Wins") {
-        garageEventEmmiter.emit(garageEventEmmiter.events.SORT_WIN)
+      let sort
+      switch (target.innerText) {
+        case "Wins":
+          sort = sortMethod.WIN
+          break
+        case "Time":
+          sort = sortMethod.TIME
+          break
       }
+      winnerEventEmmiter.emit(winnerEventEmmiter.events.SORT, sort)
+      // if (target.innerText === "Wins") {
+      //   winnerEventEmmiter.emit(
+      //     winnerEventEmmiter.events.SORT_WIN,
+      //     sortMethod.WIN
+      //   )
+      // }
 
-      if (target.innerText === "Time") {
-        garageEventEmmiter.emit(garageEventEmmiter.events.SORT_TIME)
-      }
+      // if (target.innerText === "Time") {
+      //   winnerEventEmmiter.emit(
+      //     winnerEventEmmiter.events.SORT_TIME,
+      //     sortMethod.TIME
+      //   )
+      // }
     })
   }
 

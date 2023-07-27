@@ -2,6 +2,7 @@ import winnerEventEmmiter from "../services/winners-eventEmmiter"
 import WinnerModel from "../model/winner-model"
 import presenterEventEmmiter from "../services/presenter-eventEmmiter"
 import { Car } from "../interfaces/car.interface"
+import { sortMethod } from "../enums/enum-sort-method"
 
 export default class WinnerPresenter {
   constructor(private winnerModel: WinnerModel) {
@@ -18,11 +19,17 @@ export default class WinnerPresenter {
       presenterEventEmmiter.events.DELETE_CAR,
       this.deleteWinner
     )
+    winnerEventEmmiter.on(winnerEventEmmiter.events.SORT, this.sort)
     winnerEventEmmiter.on(winnerEventEmmiter.events.NEXT_PAGE, this.nextPage)
     winnerEventEmmiter.on(
       winnerEventEmmiter.events.PREVIOUS_PAGE,
       this.previosPage
     )
+  }
+
+  private sort = async (sortMethod: sortMethod) => {
+    this.winnerModel.changeTypeSortWinner(sortMethod)
+    this.getWinners()
   }
 
   private nextPage = async () => {

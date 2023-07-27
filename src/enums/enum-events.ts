@@ -27,4 +27,5 @@ export enum Events {
   SORT_WIN,
   SORT_TIME,
   UPDATE_WINNER,
+  SORT
 }
