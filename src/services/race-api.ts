@@ -2,7 +2,6 @@ import { Car } from "../interfaces/car.interface"
 import { EngineStatus } from "../enums/enum-engine-status"
 import { Trace } from "../interfaces/trace.interface"
 import Winner from "../interfaces/winner.interface"
-import GetWinners from "../interfaces/get-winners.interface"
 import HttpStatusCode from "../enums/http-status-code"
 
 const BASE_URL = "http://127.0.0.1:3000"
@@ -101,21 +100,23 @@ export default class RaceApi {
     return { winners, totalCount: winners.length }
   }
 
-  public async getWinner(id: number) {
+  public async getWinner(id: number): Promise<any> {
     const response = await fetch(`${BASE_URL}/winners/${id}`)
-    if (response.status === 404) throw new Error("Winner not found")
-    return response.json()
+    return response
   }
 
-  public async createWinner(winner: Winner): Promise<Winner> {
+  public async createWinner(
+    winner: Omit<Winner, "wins">
+  ): Promise<HttpStatusCode> {
+    const queryParams = { ...winner, wins: 1 }
     const response = await this.fetchApi(`${BASE_URL}/winners`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(winner),
+      body: JSON.stringify(queryParams),
     })
-    return response.json()
+    return response.status
   }
 
   public async deleteWinner(id: number): Promise<HttpStatusCode> {
@@ -125,7 +126,7 @@ export default class RaceApi {
     return response.status
   }
 
-  public async updateWinner(winner: Winner): Promise<Winner> {
+  public async updateWinner(winner: Winner): Promise<HttpStatusCode> {
     const response = await this.fetchApi(`${BASE_URL}/winners/${winner.id}`, {
       method: "PUT",
       headers: {
@@ -133,6 +134,6 @@ export default class RaceApi {
       },
       body: JSON.stringify(winner),
     })
-    return response.json()
+    return response.status
   }
 }

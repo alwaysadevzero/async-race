@@ -1,6 +1,7 @@
 import GarageModel from "../model/garage-model"
 import garageEventEmmiter from "../services/garage-eventEmmiter"
 import { Car } from "../interfaces/car.interface"
+import presenterEventEmmiter from "../services/presenter-eventEmmiter"
 
 export default class GaragePresenter {
   constructor(private garageModel: GarageModel) {
@@ -38,7 +39,10 @@ export default class GaragePresenter {
       car: this.garageModel.getWinner,
       time: params.time,
     })
-
+    presenterEventEmmiter.emit(garageEventEmmiter.events.UPDATE_WINNER, {
+      car: this.garageModel.getWinner,
+      time: params.time,
+    })
     this.stopRace()
   }
 
@@ -66,9 +70,9 @@ export default class GaragePresenter {
         carId,
         trace,
       })
-    const engineStatus = await this.garageModel.driveCar(carId)
-    if (!engineStatus)
-      garageEventEmmiter.emit(garageEventEmmiter.events.DRAW_STOP, carId)
+    // const engineStatus = await this.garageModel.driveCar(carId)
+    // if (!engineStatus)
+    //   garageEventEmmiter.emit(garageEventEmmiter.events.DRAW_STOP, carId)
   }
 
   private resetCar = async (carId: number) => {
@@ -87,6 +91,7 @@ export default class GaragePresenter {
     if (!(await this.garageModel.deleteCar(id))) return
 
     const data = await this.garageModel.getCars()
+    presenterEventEmmiter.emit(presenterEventEmmiter.events.DELETE_CAR, id)
     if (!data || (data.cars.length === 0 && Number(data.totalCount) > 1)) {
       this.previosPage()
     } else {

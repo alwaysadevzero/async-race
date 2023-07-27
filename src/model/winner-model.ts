@@ -2,6 +2,7 @@ import RaceApi from "../services/race-api"
 import Winner from "../interfaces/winner.interface"
 import { Car } from "../interfaces/car.interface"
 import GetWinners from "../interfaces/get-winners.interface"
+import HttpStatusCode from "../enums/http-status-code"
 
 interface WinnerState {
   sortMethod: "id" | "wins" | "time"
@@ -23,6 +24,7 @@ const state: WinnerState = {
 
 export default class WinnerModel {
   private api = new RaceApi()
+
   private state = state
 
   public nextPage = (): false | true => {
@@ -43,7 +45,55 @@ export default class WinnerModel {
     return false
   }
 
-  public async getWinners(): Promise<GetWinners | undefined> {
+  public getWinner = async (winnerId: number): Promise<Winner | undefined> => {
+    console.log(winnerId)
+    console.log("dwadwa")
+    console.log("dwadwa")
+    console.log("dwadwa")
+    console.log("dwadwa")
+    console.log("dwadwa")
+    const response = await this.api.getWinner(winnerId)
+    console.log(response)
+    if (response.status !== HttpStatusCode.OK_200) return undefined
+    try {
+      if (
+        response &&
+        typeof response.id === "number" &&
+        typeof response.time === "string" &&
+        typeof response.wins === "string"
+      )
+        return response
+      throw new Error("invalid response winner")
+    } catch (err) {
+      console.error("invalid response winner data")
+    }
+    return undefined
+  }
+
+  public createWinner = async (
+    winner: Omit<Winner, "wins">
+  ): Promise<boolean> => {
+    const status = await this.api.createWinner(winner)
+    console.log("CREATE WINNER", winner.id)
+    if (status === HttpStatusCode.CREATED_201) return true
+    return false
+  }
+
+  public deleteWinner = async (winnerId: number): Promise<boolean> => {
+    const status = await this.api.deleteWinner(winnerId)
+    if (status === HttpStatusCode.OK_200) return true
+    return false
+  }
+
+  public updateWinner = async (winner: Winner): Promise<boolean> => {
+    const status = await this.api.updateWinner(winner)
+    console.log(124124214)
+    console.log(status)
+    if (status === HttpStatusCode.OK_200) return true
+    return false
+  }
+
+  public getWinners = async (): Promise<GetWinners | undefined> => {
     try {
       const response: Omit<GetWinners, "page"> | undefined =
         await this.api.getWinners(
@@ -71,7 +121,7 @@ export default class WinnerModel {
       )
 
       return {
-        winners: winners,
+        winners,
         totalCount: response.totalCount,
         page: this.state.totalPages,
       }

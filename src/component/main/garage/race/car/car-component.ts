@@ -6,6 +6,7 @@ import garageEventEmmiter from "../../../../../services/garage-eventEmmiter"
 import { Trace } from "../../../../../interfaces/trace.interface"
 
 const SPEED = 10
+const MILISECONDS = 1000
 
 export default class CarComponent extends BaseComponent {
   private trace: BaseComponent
@@ -60,7 +61,7 @@ export default class CarComponent extends BaseComponent {
         this.stopAnimation()
         garageEventEmmiter.emit(garageEventEmmiter.events.FINISH_CAR, {
           car: this.car,
-          time: trace.distance * SPEED,
+          time: (trace.distance / (trace.velocity * MILISECONDS)).toFixed(1),
         })
       }
     }
