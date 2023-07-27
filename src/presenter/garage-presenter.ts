@@ -70,9 +70,9 @@ export default class GaragePresenter {
         carId,
         trace,
       })
-    // const engineStatus = await this.garageModel.driveCar(carId)
-    // if (!engineStatus)
-    //   garageEventEmmiter.emit(garageEventEmmiter.events.DRAW_STOP, carId)
+    const engineStatus = await this.garageModel.driveCar(carId)
+    if (!engineStatus)
+      garageEventEmmiter.emit(garageEventEmmiter.events.DRAW_STOP, carId)
   }
 
   private resetCar = async (carId: number) => {

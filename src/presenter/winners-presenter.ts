@@ -29,23 +29,22 @@ export default class WinnerPresenter {
     car: Car
     time: number
   }): Promise<void> => {
-    const winner = await this.winnerModel.getWinner(params.car.id)
-    console.log(winner)
-    if (winner) {
-      this.winnerModel.updateWinner({
+    const OldRecordWinner = await this.winnerModel.getWinner(params.car.id)
+    if (OldRecordWinner) {
+      const status = await this.winnerModel.updateWinner({
         time: String(params.time),
-        wins: winner.wins,
-        id: winner.id,
+        wins: String(+OldRecordWinner.wins + 1),
+        id: OldRecordWinner.id,
       })
-      this.getWinners()
+      if (!status) return
+      await this.getWinners()
       return
     }
     const createWinner: boolean = await this.winnerModel.createWinner({
       time: String(params.time),
       id: params.car.id,
     })
-    console.log(createWinner)
-    if (createWinner) this.getWinners()
+    if (createWinner) await this.getWinners()
   }
 
   private getWinners = async () => {

@@ -50,6 +50,7 @@ export default class CarComponent extends BaseComponent {
   }
 
   private startAnimation = (trace: Trace) => {
+    const startTime = new Date()
     this.trace.setAttributes({ max: `${trace.distance}` })
     let step = 0
     const animate = () => {
@@ -59,9 +60,13 @@ export default class CarComponent extends BaseComponent {
         this.animationId = requestAnimationFrame(animate)
       } else {
         this.stopAnimation()
+        let endTime = new Date()
         garageEventEmmiter.emit(garageEventEmmiter.events.FINISH_CAR, {
           car: this.car,
-          time: (trace.distance / (trace.velocity * MILISECONDS)).toFixed(1),
+          time: (
+            (endTime.getTime() - startTime.getTime()) /
+            MILISECONDS
+          ).toFixed(1),
         })
       }
     }

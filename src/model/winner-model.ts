@@ -46,23 +46,11 @@ export default class WinnerModel {
   }
 
   public getWinner = async (winnerId: number): Promise<Winner | undefined> => {
-    console.log(winnerId)
-    console.log("dwadwa")
-    console.log("dwadwa")
-    console.log("dwadwa")
-    console.log("dwadwa")
-    console.log("dwadwa")
     const response = await this.api.getWinner(winnerId)
-    console.log(response)
+    const winner = await response.json()
     if (response.status !== HttpStatusCode.OK_200) return undefined
     try {
-      if (
-        response &&
-        typeof response.id === "number" &&
-        typeof response.time === "string" &&
-        typeof response.wins === "string"
-      )
-        return response
+      if (response) return winner
       throw new Error("invalid response winner")
     } catch (err) {
       console.error("invalid response winner data")
@@ -87,8 +75,6 @@ export default class WinnerModel {
 
   public updateWinner = async (winner: Winner): Promise<boolean> => {
     const status = await this.api.updateWinner(winner)
-    console.log(124124214)
-    console.log(status)
     if (status === HttpStatusCode.OK_200) return true
     return false
   }
