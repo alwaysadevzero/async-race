@@ -106,7 +106,11 @@ export default class GaragePresenter {
   private updateCar = async (car: Car) => {
     if (this.garageModel.animationStatus) return
     const isCarUpdated: boolean = await this.garageModel.updateCar(car)
-    if (isCarUpdated) this.updateCars()
+    if (!isCarUpdated) return
+    presenterEventEmmiter.emit(presenterEventEmmiter.events.UPDATE_WINNER, {
+      car,
+    })
+    this.updateCars()
   }
 
   private createCar = async (params: { carName: string; carColor: string }) => {

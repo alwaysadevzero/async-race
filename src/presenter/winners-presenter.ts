@@ -62,12 +62,12 @@ export default class WinnerPresenter {
 
   private updateWinner = async (params: {
     car: Car
-    time: number
+    time?: number
   }): Promise<void> => {
     const OldRecordWinner = await this.winnerModel.getWinner(params.car.id)
     if (OldRecordWinner) {
       const status = await this.winnerModel.updateWinner({
-        time: String(params.time),
+        time: String(params.time ? params.time : OldRecordWinner.time),
         wins: String(+OldRecordWinner.wins + 1),
         id: OldRecordWinner.id,
       })
