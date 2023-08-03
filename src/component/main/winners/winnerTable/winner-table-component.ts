@@ -1,5 +1,5 @@
 import styles from "./winner-table.module.css"
-import BaseComponent from "../../../../utils/baseComponent"
+import BaseComponent from "../../../base-component"
 import garageEventEmmiter from "../../../../services/garage-eventEmmiter"
 import winnerEventEmmiter from "../../../../services/winners-eventEmmiter"
 

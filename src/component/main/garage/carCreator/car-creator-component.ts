@@ -1,5 +1,5 @@
 import styles from "./car-creator.module.css"
-import BaseComponent from "../../../../utils/baseComponent"
+import BaseComponent from "../../../base-component"
 import garageEventEmmiter from "../../../../services/garage-eventEmmiter"
 
 export default class CarCreatorComponent extends BaseComponent<"article"> {

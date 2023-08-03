@@ -1,5 +1,5 @@
 import styles from "./car-updater.module.css"
-import BaseComponent from "../../../../utils/baseComponent"
+import BaseComponent from "../../../base-component"
 import garageEventEmmiter from "../../../../services/garage-eventEmmiter"
 import { Car } from "../../../../interfaces/car.interface"
 

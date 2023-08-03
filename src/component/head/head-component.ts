@@ -1,4 +1,4 @@
-import BaseComponent from "../../utils/baseComponent"
+import BaseComponent from "../base-component"
 import { Pages } from "../../enums/enum-pages"
 import styles from "./head.module.css"
 import WinnerModalComponent from "./modal/winner-modal-component"

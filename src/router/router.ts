@@ -1,7 +1,7 @@
 import { Routes } from "./routes"
 import { Route } from "./interface-route"
 import { Pages } from "../enums/enum-pages"
-import BaseComponent from "../utils/baseComponent"
+import BaseComponent from "../component/base-component"
 
 interface ActiveRoute {
   name: Pages

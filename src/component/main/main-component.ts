@@ -1,4 +1,4 @@
-import BaseComponent from "../../utils/baseComponent"
+import BaseComponent from "../base-component"
 
 export class MainComponent extends BaseComponent<"main"> {
   constructor() {

@@ -1,4 +1,4 @@
-import BaseComponent from "../../../utils/baseComponent"
+import BaseComponent from "../../../component/base-component"
 import styles from "./navigation.module.css"
 import EventEmitter from "../../../utils/eventEmmiter"
 

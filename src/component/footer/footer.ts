@@ -1,4 +1,4 @@
-import BaseComponent from "../../utils/baseComponent"
+import BaseComponent from "../base-component"
 import styles from "./footer.module.css"
 
 const LINKS = [
@@ -14,7 +14,7 @@ export class FooterComponent extends BaseComponent<"footer"> {
   constructor() {
     super({
       tag: "footer",
-      className: styles.footer
+      className: styles.footer,
     })
     this.initComponent()
   }

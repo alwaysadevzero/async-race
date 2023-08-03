@@ -1,5 +1,5 @@
 import styles from "./race.module.css"
-import BaseComponent from "../../../../utils/baseComponent"
+import BaseComponent from "../../../base-component"
 import CarComponent from "./car/car-component"
 import garageEventEmmiter from "../../../../services/garage-eventEmmiter"
 import { Car } from "../../../../interfaces/car.interface"

@@ -1,5 +1,5 @@
 import { Pages } from "../enums/enum-pages"
-import BaseComponent from "../utils/baseComponent"
+import BaseComponent from "../component/base-component"
 
 export interface Route {
   name: Pages

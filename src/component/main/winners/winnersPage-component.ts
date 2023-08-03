@@ -1,5 +1,5 @@
 import styles from "./winners.module.css"
-import BaseComponent from "../../../utils/baseComponent"
+import BaseComponent from "../../base-component"
 import PanelComponent from "../../../shared/component/panel/panel-component"
 import NavigationComponent from "../../../shared/component/navigation/navigation-component"
 import winnerEventEmmiter from "../../../services/winners-eventEmmiter"

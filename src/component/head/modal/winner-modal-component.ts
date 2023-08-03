@@ -1,5 +1,5 @@
 import styles from "./winner-modal.module.css"
-import BaseComponent from "../../../utils/baseComponent"
+import BaseComponent from "../../base-component"
 import GarageEventEmmiter from "../../../services/garage-eventEmmiter"
 import { Car } from "../../../interfaces/car.interface"
 
