@@ -12,18 +12,15 @@ export default class WinnerModalComponent extends BaseComponent {
 
   constructor() {
     super({ className: styles.modal })
-    this.configureView()
+    this.initComponent()
     this.initListeners()
   }
 
   private initListeners = () => {
-    this.modelContent.addListener("click", () => {
-      this.disableModal()
-    })
-
     this.modal.addListener("click", (event) => {
       if (event?.target === this.modal.node) this.disableModal()
     })
+
     GarageEventEmmiter.on(
       GarageEventEmmiter.events.DRAW_WINNER,
       this.drawWinner
@@ -31,7 +28,6 @@ export default class WinnerModalComponent extends BaseComponent {
   }
 
   private drawWinner = (params: { car: Car; time: number }) => {
-    params
     this.carNameWinner.setContent(params.car.name)
     this.enableModal()
   }
@@ -48,7 +44,7 @@ export default class WinnerModalComponent extends BaseComponent {
     this.setClass(styles.open, true)
   }
 
-  private configureView = () => {
+  private initComponent = () => {
     this.modal = new BaseComponent({
       tag: "dialog",
       className: styles.modal,
@@ -61,6 +57,7 @@ export default class WinnerModalComponent extends BaseComponent {
       className: styles.article,
       parent: this.modal.node,
     })
+
     this.modelContent = new BaseComponent({
       tag: "a",
       parent: article.node,
@@ -75,15 +72,12 @@ export default class WinnerModalComponent extends BaseComponent {
       tag: "h2",
       content: "Congratulation!",
       parent: this.modelContent.node,
+      className: styles.title,
     })
 
     this.carNameWinner = new BaseComponent({
       tag: "h3",
       className: styles.carNameWinner,
-      parent: this.modelContent.node,
-    })
-
-    const timeWrapper = new BaseComponent({
       parent: this.modelContent.node,
     })
   }
