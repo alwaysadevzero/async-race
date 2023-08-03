@@ -4,8 +4,11 @@ import garageEventEmmiter from "../../../../services/garage-eventEmmiter"
 
 export default class CarCreatorComponent extends BaseComponent<"article"> {
   private color!: BaseComponent
+
   private button!: BaseComponent
+
   private input!: BaseComponent
+
   constructor() {
     super({
       tag: "article",

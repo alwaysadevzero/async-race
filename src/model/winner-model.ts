@@ -28,11 +28,10 @@ export default class WinnerModel {
 
   private state = state
 
-  public changeTypeSortWinner = (sortMethod: sortMethod) => {
-    this.state.sortMethod = sortMethod
+  public changeTypeSortWinner = (srtMethod: sortMethod) => {
+    this.state.sortMethod = srtMethod
 
     this.state.sortOrder = this.state.sortOrder === "ASC" ? "DESC" : "ASC"
-    console.log(sortMethod, this.state.sortOrder)
   }
 
   public nextPage = (): false | true => {
@@ -70,7 +69,6 @@ export default class WinnerModel {
     winner: Omit<Winner, "wins">
   ): Promise<boolean> => {
     const status = await this.api.createWinner(winner)
-    console.log("CREATE WINNER", winner.id)
     if (status === HttpStatusCode.CREATED_201) return true
     return false
   }

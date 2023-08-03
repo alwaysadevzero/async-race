@@ -1,5 +1,3 @@
-import EventEmitter from "../utils/eventEmmiter"
-
 type ComponentProps<T> = {
   parent: HTMLElement | null
   tag: T

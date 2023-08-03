@@ -161,7 +161,6 @@ export default class GarageModel {
         this.state.pageLength = Math.ceil(
           +response.totalCount / this.state.carsLength
         )
-        this.state
         return response
       }
       throw new Error("Invalid car data received")
@@ -171,9 +170,11 @@ export default class GarageModel {
     }
   }
 
-  private isValidCarResponse(
-    response: any
-  ): response is { cars: Car[]; totalCount: string; page: number } {
+  private isValidCarResponse(response: {
+    cars: Car[]
+    totalCount: string | null
+    page: number
+  }): response is { cars: Car[]; totalCount: string; page: number } {
     return (
       response &&
       response.cars &&
