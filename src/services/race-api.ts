@@ -1,7 +1,7 @@
-import { Car } from "../interfaces/car.interface"
+import { Car } from "../interfaces/car-interface"
 import { EngineStatus } from "../enums/enum-engine-status"
-import { Trace } from "../interfaces/trace.interface"
-import Winner from "../interfaces/winner.interface"
+import { Trace } from "../interfaces/trace-interface"
+import Winner from "../interfaces/winner-interface"
 import HttpStatusCode from "../enums/http-status-code"
 
 const BASE_URL = "http://127.0.0.1:3000"

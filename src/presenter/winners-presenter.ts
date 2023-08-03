@@ -1,7 +1,7 @@
 import winnerEventEmmiter from "../services/winners-eventEmmiter"
 import WinnerModel from "../model/winner-model"
 import presenterEventEmmiter from "../services/presenter-eventEmmiter"
-import { Car } from "../interfaces/car.interface"
+import { Car } from "../interfaces/car-interface"
 import { sortMethod } from "../enums/enum-sort-method"
 
 export default class WinnerPresenter {
@@ -27,8 +27,8 @@ export default class WinnerPresenter {
     )
   }
 
-  private sort = async (sortMethod: sortMethod) => {
-    this.winnerModel.changeTypeSortWinner(sortMethod)
+  private sort = async (sortmethod: sortMethod) => {
+    this.winnerModel.changeTypeSortWinner(sortmethod)
     this.getWinners()
   }
 

@@ -1,6 +1,6 @@
 import GarageModel from "../model/garage-model"
 import garageEventEmmiter from "../services/garage-eventEmmiter"
-import { Car } from "../interfaces/car.interface"
+import { Car } from "../interfaces/car-interface"
 import presenterEventEmmiter from "../services/presenter-eventEmmiter"
 
 export default class GaragePresenter {

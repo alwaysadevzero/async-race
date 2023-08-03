@@ -1,9 +1,9 @@
 import styles from "./car.module.css"
 import BaseComponent from "../../../../base-component"
-import { Car } from "../../../../../interfaces/car.interface"
+import { Car } from "../../../../../interfaces/car-interface"
 import CarControlComponent from "./carControls/car-control-component"
 import garageEventEmmiter from "../../../../../services/garage-eventEmmiter"
-import { Trace } from "../../../../../interfaces/trace.interface"
+import { Trace } from "../../../../../interfaces/trace-interface"
 
 const SPEED = 10
 const MILISECONDS = 1000

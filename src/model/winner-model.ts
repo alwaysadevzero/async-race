@@ -1,7 +1,7 @@
 import RaceApi from "../services/race-api"
-import Winner from "../interfaces/winner.interface"
-import { Car } from "../interfaces/car.interface"
-import GetWinners from "../interfaces/get-winners.interface"
+import Winner from "../interfaces/winner-interface"
+import { Car } from "../interfaces/car-interface"
+import GetWinners from "../interfaces/get-winners-interface"
 import HttpStatusCode from "../enums/http-status-code"
 import { sortMethod } from "../enums/enum-sort-method"
 

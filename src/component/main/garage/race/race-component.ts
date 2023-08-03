@@ -2,7 +2,7 @@ import styles from "./race.module.css"
 import BaseComponent from "../../../base-component"
 import CarComponent from "./car/car-component"
 import garageEventEmmiter from "../../../../services/garage-eventEmmiter"
-import { Car } from "../../../../interfaces/car.interface"
+import { Car } from "../../../../interfaces/car-interface"
 
 export default class RaceComponent extends BaseComponent {
   private carsNumber: number | null

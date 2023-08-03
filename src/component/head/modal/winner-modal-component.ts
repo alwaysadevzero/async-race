@@ -1,7 +1,7 @@
 import styles from "./winner-modal.module.css"
 import BaseComponent from "../../base-component"
 import GarageEventEmmiter from "../../../services/garage-eventEmmiter"
-import { Car } from "../../../interfaces/car.interface"
+import { Car } from "../../../interfaces/car-interface"
 
 export default class WinnerModalComponent extends BaseComponent {
   private modal!: BaseComponent

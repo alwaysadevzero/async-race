@@ -1,7 +1,7 @@
 import styles from "./car-updater.module.css"
 import BaseComponent from "../../../base-component"
 import garageEventEmmiter from "../../../../services/garage-eventEmmiter"
-import { Car } from "../../../../interfaces/car.interface"
+import { Car } from "../../../../interfaces/car-interface"
 
 const THEME = {
   disabled: { "data-theme": "dark" },

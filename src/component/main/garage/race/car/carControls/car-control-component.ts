@@ -1,7 +1,7 @@
 import styles from "./car-control.module.css"
 import BaseComponent from "../../../../../base-component"
 import garageEventEmmiter from "../../../../../../services/garage-eventEmmiter"
-import { Car } from "../../../../../../interfaces/car.interface"
+import { Car } from "../../../../../../interfaces/car-interface"
 
 export default class CarControlComponent extends BaseComponent {
   private startButton!: BaseComponent

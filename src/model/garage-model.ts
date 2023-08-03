@@ -1,8 +1,8 @@
 import RaceApi from "../services/race-api"
-import { Car } from "../interfaces/car.interface"
-import { GarageState } from "../interfaces/garage-state.interface"
+import { Car } from "../interfaces/car-interface"
+import { GarageState } from "../interfaces/garage-state-interface"
 import generateCars from "../utils/createRandomCar"
-import { Trace } from "../interfaces/trace.interface"
+import { Trace } from "../interfaces/trace-interface"
 import { Race } from "../enums/enum-race-status"
 import HttpStatusCode from "../enums/http-status-code"
 

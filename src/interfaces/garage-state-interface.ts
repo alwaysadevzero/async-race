@@ -1,5 +1,5 @@
 import { Race } from "../enums/enum-race-status"
-import { Car } from "./car.interface"
+import { Car } from "./car-interface"
 
 export interface GarageState {
   currentPage: number

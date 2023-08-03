@@ -1,4 +1,4 @@
-import { Car } from "../interfaces/car.interface"
+import { Car } from "../interfaces/car-interface"
 
 const brands = [
   "Tesla",
