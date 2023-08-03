@@ -19,7 +19,7 @@ export class FooterComponent extends BaseComponent<"footer"> {
     this.initComponent()
   }
 
-  private initComponent() {
+  private initComponent = () => {
     const nav = new BaseComponent<"nav">({
       tag: "nav",
       attributes: { "aria-label": "breadcrumb" },
