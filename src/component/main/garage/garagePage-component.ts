@@ -3,7 +3,7 @@ import BaseComponent from "../../base-component"
 
 import garageEventEmmiter from "../../../services/garage-eventEmmiter"
 
-import GaragePresenter from "../../../presenter/garage-presenter"
+import GaragePresenter from "../../../presenters/garage-presenter"
 import GarageModel from "../../../model/garage-model"
 
 import RaceComponent from "./race/race-component"

@@ -5,7 +5,7 @@ import NavigationComponent from "../../../shared/component/navigation/navigation
 import winnerEventEmmiter from "../../../services/winners-eventEmmiter"
 import WinTableComponent from "./winnerTable/winner-table-component"
 
-import WinnerPresenter from "../../../presenter/winners-presenter"
+import WinnerPresenter from "../../../presenters/winners-presenter"
 import WinnerModel from "../../../model/winner-model"
 
 export class WinnersComponent extends BaseComponent {
