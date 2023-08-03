@@ -1,11 +1,9 @@
 import styles from "./winner-table.module.css"
 import BaseComponent from "../../../base-component"
-import garageEventEmmiter from "../../../../services/garage-eventEmmiter"
 import winnerEventEmmiter from "../../../../services/winners-eventEmmiter"
 
 import machineSvg from "../../../../assets/machine.svg"
 import { sortMethod } from "../../../../enums/enum-sort-method"
-machineSvg
 
 interface Winner {
   color: string
@@ -18,6 +16,7 @@ const HEADERS = ["Number", "Car", "Name", "Wins", "Time"]
 
 export default class WinnerComponent extends BaseComponent<"table"> {
   private thead: BaseComponent<"thead">
+
   private tbody: BaseComponent<"tbody">
 
   constructor() {
@@ -27,7 +26,7 @@ export default class WinnerComponent extends BaseComponent<"table"> {
   }
 
   private initListeners = () => {
-    winnerEventEmmiter.on(winnerEventEmmiter.events.DRAW_CARS, this.updateTable)
+    winnerEventEmmiter.on(winnerEventEmmiter.events.DRAW_CARS, this.drawTable)
     this.thead.node.addEventListener("click", (event) => {
       const target = event.target as HTMLElement
 
@@ -39,9 +38,17 @@ export default class WinnerComponent extends BaseComponent<"table"> {
         case "Time":
           sort = sortMethod.TIME
           break
+        default:
+          break
       }
       winnerEventEmmiter.emit(winnerEventEmmiter.events.SORT, sort)
     })
+  }
+
+  private drawTable = (data: Winner[]) => {
+    const table = this.genRows(data)
+    this.tbody.node.innerHTML = ""
+    this.tbody.append(...table)
   }
 
   private initComponent = () => {
@@ -60,7 +67,7 @@ export default class WinnerComponent extends BaseComponent<"table"> {
     })
 
     HEADERS.forEach((header) => {
-      new BaseComponent<"th">({
+      const th = new BaseComponent<"th">({
         tag: "th",
         content: header,
         parent: headerRow.node,
@@ -68,52 +75,44 @@ export default class WinnerComponent extends BaseComponent<"table"> {
     })
   }
 
-  public updateTable = (data: Winner[]) => {
-    this.tbody.node.innerHTML = ""
-
-    const table = data.forEach((winner, index) => {
-      const tr = new BaseComponent<"tr">({
+  private genRows = (data: Winner[]) => {
+    return data.map((winner, index) => {
+      const row = new BaseComponent<"tr">({
         tag: "tr",
-        parent: this.tbody.node,
       })
-
-      new BaseComponent<"td">({
+      const count = new BaseComponent<"td">({
         tag: "td",
         content: (index + 1).toString(),
-        parent: tr.node,
+        parent: row.node,
       })
-
       const tdCar = new BaseComponent<"td">({
         tag: "td",
-        parent: tr.node,
+        parent: row.node,
         className: styles.tdCar,
       })
-
-      new BaseComponent<"td">({
+      const name = new BaseComponent<"td">({
         tag: "td",
         content: winner.name,
-        parent: tr.node,
+        parent: row.node,
       })
-
       const machineIMG = new BaseComponent({
         tag: "div",
         parent: tdCar.node,
         className: styles.machineIMG,
       })
       machineIMG.node.style.setProperty("--car-color", winner.color)
-
-      new BaseComponent<"td">({
+      const wins = new BaseComponent<"td">({
         tag: "td",
         content: winner.wins.toString(),
         className: styles.columWins,
-        parent: tr.node,
+        parent: row.node,
       })
-
-      new BaseComponent<"td">({
+      const time = new BaseComponent<"td">({
         tag: "td",
         content: winner.time.toString(),
-        parent: tr.node,
+        parent: row.node,
       })
+      return row
     })
   }
 }
