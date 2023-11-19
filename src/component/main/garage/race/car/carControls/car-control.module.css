@@ -1,0 +1,16 @@
+.CarControlComponent {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.button {
+  margin: 0;
+  width: fit-content;
+}
+
+.name {
+  text-wrap: nowrap;
+  width: 100%;
+}

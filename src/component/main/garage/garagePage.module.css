@@ -1,0 +1,36 @@
+.creatorWrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  margin: 0;
+}
+
+.controlsWrapper {
+  display: flex;
+  gap: 20px;
+  max-width: 400px;
+  flex-direction: column;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+@media (min-width: 1050px) {
+  .wrapper {
+    flex-wrap: nowrap;
+  }
+}
+
+.wrapper {
+  align-items: center;
+  justify-content: center;
+}
+
+.GarageComponent {
+  display: flex;
+  flex-direction: column;
+}
