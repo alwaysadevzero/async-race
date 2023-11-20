@@ -4,7 +4,7 @@ import { Trace } from "../interfaces/trace-interface"
 import Winner from "../interfaces/winner-interface"
 import HttpStatusCode from "../enums/http-status-code"
 
-const BASE_URL = "http://127.0.0.1:3000"
+const BASE_URL = "http://34.42.73.144:3000"
 
 export default class RaceApi {
   private async fetchApi(url: string, options?: RequestInit) {
